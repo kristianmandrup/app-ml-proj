@@ -1,0 +1,16 @@
+{
+  "name": "process-lang",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chevrotain": "^4.3.1",
+    "chevrotain-lexx": "^1.0.0",
+    "chevrotain-parsx": "^1.0.0"
+  }
+}

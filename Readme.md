@@ -15,6 +15,14 @@ The AppML is based on the language used in the book: [Domain Modelling made Func
 
 This is a mono-repo [lerna](https://lernajs.io/) project consisting of individual, focues packages.
 
+From the root of this project, run the lerna [bootstrap](https://github.com/lerna/lerna/tree/master/commands/bootstrap#readme) command
+
+```bash
+$ lerna bootstrap
+```
+
+Bootstrap the packages in the current Lerna repo. Installs all of their dependencies and links any cross-dependencies.
+
 ## Repo design
 
 ### extension
@@ -31,10 +39,14 @@ Taken from a `log` language example config project. Use it as a template ;)
 ### lsp
 
 [Language Server Protocol](https://tomassetti.me/language-server-dot-visual-studio/) implementation for language IDE/Editor support.
+
 The LSP consists of:
 
-- client (notifies server of document changes in active document or project)
-- server (responds with validation error messages, code suggestions etc)
+- `client`
+- `server`
+
+The `client` notifies the `server` of document changes in active document or project
+The `server` responds with validation error messages, code suggestions etc.
 
 ### app-ml-chevrotain
 

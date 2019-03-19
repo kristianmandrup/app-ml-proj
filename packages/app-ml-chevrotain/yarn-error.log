@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add chevrotain-lexx
+  /usr/local/bin/node /usr/local/bin/yarn outdated --json
 
 PATH: 
-  /Users/kristianmandrup/.nimble/bin:/usr/local/sbin:/Users/kristianmandrup/.dotnet/tools:/usr/local/bin:/Users/kristianmandrup/.yarn/bin:/usr/local/sbin:/Users/kristianmandrup/.dotnet/tools:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/share/dotnet:/usr/local/git/bin:/usr/local/go/bin:/usr/local/MacGPG2/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+  /usr/local/sbin:/Users/kristianmandrup/.dotnet/tools:/usr/local/bin:/Users/kristianmandrup/.yarn/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/share/dotnet:/usr/local/git/bin:/usr/local/go/bin:/usr/local/MacGPG2/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
 
 Yarn version: 
   1.5.1
@@ -26,6 +26,8 @@ npm manifest:
     "license": "ISC",
     "dependencies": {
       "chevrotain": "^4.3.0",
+      "chevrotain-lexx": "^1.0.0",
+      "chevrotain-parsx": "^1.0.0",
       "lodash.camelcase": "^4.3.0",
       "lodash.capitalize": "^4.2.1"
     },
@@ -2978,14 +2980,14 @@ Lockfile:
       yargs-parser "^11.1.1"
 
 Trace: 
-  Error: https://registry.yarnpkg.com/chevrotain-lexx: Not found
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:65019:18)
-      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:132430:22)
-      at Request.emit (events.js:182:13)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:133413:10)
-      at Request.emit (events.js:182:13)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:133333:12)
-      at Object.onceWrapper (events.js:273:13)
-      at IncomingMessage.emit (events.js:187:15)
-      at endReadableNT (_stream_readable.js:1094:12)
-      at process.internalTickCallback (internal/process/next_tick.js:72:19)
+  Error: Outdated lockfile. Please run `yarn install` and try again.
+      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:36620:19
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:116:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:23451:28)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:95:12
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:36660:25
+      at Array.map (<anonymous>)

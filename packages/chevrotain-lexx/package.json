@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "chevrotain": "^4.3.0",
-    "chevrotain-parsx": "^1.0.0",
     "lodash.camelcase": "^4.3.0",
     "lodash.capitalize": "^4.2.1"
   },
