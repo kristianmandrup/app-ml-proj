@@ -17,6 +17,25 @@ This is a mono-repo [lerna](https://lernajs.io/) project consisting of individua
 
 ## Repo design
 
+### extension
+
+The Visual Studio Code extension configuration. Contains:
+
+- syntax/grammar specification file (for syntax highlighting etc)
+- language configuration
+
+Note: TODO
+
+Taken from a `log` language example config project. Use it as a template ;)
+
+### lsp
+
+[Language Server Protocol](https://tomassetti.me/language-server-dot-visual-studio/) implementation for language IDE/Editor support.
+The LSP consists of:
+
+- client (notifies server of document changes in active document or project)
+- server (responds with validation error messages, code suggestions etc)
+
 ### app-ml-chevrotain
 
 The complete AppML language, implemented in chevrotain:
