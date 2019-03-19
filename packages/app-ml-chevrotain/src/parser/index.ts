@@ -1,11 +1,12 @@
-// TODO: Use parsx
+import * as chevrotain from "chevrotain";
+import { tokens } from "../lexer";
 
 // ----------------- parser -----------------
 // Note that this is a Pure grammar, it only describes the grammar
 // Not any actions (semantics) to perform during parsing.
-class CalculatorPure extends Parser {
+class Parser extends chevrotain.Parser {
   constructor() {
-    super(allTokens);
+    super(tokens);
 
     const $ = this;
 
@@ -571,4 +572,4 @@ class CalculatorPure extends Parser {
 
 // wrapping it all together
 // reuse the same parser instance.
-export const parser = new CalculatorPure([]);
+export const parser = new Parser();

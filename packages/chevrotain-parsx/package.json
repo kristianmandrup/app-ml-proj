@@ -2,7 +2,7 @@
   "name": "chevrotain-parsx",
   "version": "1.0.0",
   "description": "Chevrotain parser helpers",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest"
   },

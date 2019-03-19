@@ -1,5 +1,5 @@
-import { Parsx } from "./parsx";
+import { Parsx, IParser } from "./parsx";
 
-export const createParsx = (opts: any = {}) => {
-  return new Parsx(opts);
+export const createParsx = (parser: IParser, opts: any = {}) => {
+  return new Parsx(parser, opts);
 };

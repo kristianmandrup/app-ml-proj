@@ -161,6 +161,11 @@ const WhiteSpace = createToken({
   group: chevrotain.Lexer.SKIPPED
 });
 
+export const tokenMap = {
+  WhiteSpace,
+  WorkflowLiteral
+};
+
 export const allTokens = [
   WhiteSpace, // whitespace is normally very common so it should be placed first to speed up the lexer's performance
   Equal,

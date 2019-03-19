@@ -49,6 +49,6 @@ const createLexer = (lex): any[] => {
 };
 
 const lexx = createLexx();
-const tokens = createLexer(lexx);
+export const tokens = createLexer(lexx);
 
 export const lexer = new Lexer(tokens);

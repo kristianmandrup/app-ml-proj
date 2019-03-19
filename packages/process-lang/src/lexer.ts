@@ -1,6 +1,5 @@
-import * as chevrotain from "chevrotain";
+import { Lexer, createToken } from "chevrotain";
 
-const createToken = chevrotain.createToken;
 const WorkflowLiteral = createToken({
   name: "WorkflowLiteral",
   pattern: /Workflow/
@@ -157,7 +156,7 @@ const StringLiteral = createToken({
 const WhiteSpace = createToken({
   name: "WhiteSpace",
   pattern: /\s+/,
-  group: chevrotain.Lexer.SKIPPED
+  group: Lexer.SKIPPED
 });
 
 export const allTokens = [
@@ -231,4 +230,4 @@ export const allTokens = [
   Identifier
 ];
 
-export const Lexer = new chevrotain.Lexer(allTokens);
+export const lexer = new Lexer(allTokens);

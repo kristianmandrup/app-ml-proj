@@ -1,4 +1,5 @@
-import { Parser } from "./parser";
+import { Parser } from "chevrotain";
+import { allTokens, tokenMap } from "./lexer";
 
 // ----------------- parser -----------------
 // Note that this is a Pure grammar, it only describes the grammar
@@ -556,7 +557,7 @@ export class CalculatorPure extends Parser {
     });
 
     $.RULE("workflowExpression", () => {
-      $.CONSUME(WorkflowLiteral);
+      $.CONSUME(tokenMap.WorkflowLiteral);
       $.CONSUME(Colon);
       $.CONSUME(StringLiteral);
       $.SUBRULE($.workflowBodyExpression, { LABEL: "body" });

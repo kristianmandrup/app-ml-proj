@@ -1,1 +1,1 @@
-import * as api from "./api";
+export { createParsx } from "./api";

@@ -1,36 +1,32 @@
+import * as chevrotain from "chevrotain";
 import { allTokens } from "./lexer";
+import { createParsx } from "chevrotain-parsx";
 
 // ----------------- parser -----------------
 // Note that this is a Pure grammar, it only describes the grammar
 // Not any actions (semantics) to perform during parsing.
-class CalculatorPure extends Parser {
+export class Parser extends chevrotain.Parser {
   constructor() {
     super(allTokens);
+    const $ = createParsx(this);
 
-    const $ = this;
-
-    $.RULE("expression", () => {
-      $.MANY(() => {
-        $.OR([
-          { ALT: () => $.SUBRULE($.workflowExpression) },
-          { ALT: () => $.SUBRULE($.domainExpression) },
-          { ALT: () => $.SUBRULE($.substepExpression) }
-        ]);
-      });
+    $.ruleFor("expression", () => {
+      $.manyOfEither([
+        "workflowExpression",
+        "domainExpression",
+        "substepExpression"
+      ]);
     });
 
-    $.RULE("triggerExpression", () => {
-      $.CONSUME(TriggerLiteral);
-      $.CONSUME(Colon);
-      $.CONSUME(StringLiteral);
+    $.ruleFor("triggerExpression", () => {
+      $.consumes(["TriggerLiteral", "Colon", "StringLiteral"]);
     });
 
-    $.RULE("inputsExpression", () => {
-      $.CONSUME(InputsLiteral);
-      $.CONSUME(Colon);
-      $.SUBRULE($.primaryExpression, { LABEL: "primary" });
-      $.MANY(() => {
-        $.SUBRULE($.otherExpression, { LABEL: "other" });
+    $.ruleFor("inputsExpression", () => {
+      $.consumes(["InputsLiteral", "Colon"]);
+      $.subrule("primaryExpression", { LABEL: "primary" });
+      $.many(() => {
+        $.subrule("otherExpression", { LABEL: "other" });
       });
     });
 
@@ -571,4 +567,4 @@ class CalculatorPure extends Parser {
 
 // wrapping it all together
 // reuse the same parser instance.
-const parser = new CalculatorPure([]);
+export const parser = new Parser();
