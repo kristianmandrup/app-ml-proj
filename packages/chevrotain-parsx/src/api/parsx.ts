@@ -72,6 +72,24 @@ export class Parsx {
     return this;
   }
 
+  consumeEither(tokens: string[]) {
+    this.$["OR"](tokens.map(token => ({ ALT: () => this.consume(token) })));
+    return this;
+  }
+
+  subruleEither(subrules: any[]) {
+    this.$["OR"](
+      subrules.map(rule => {
+        const opts = {
+          label: rule.label,
+          ...rule.opts
+        };
+        return { ALT: () => this.subrule(rule.name, opts) };
+      })
+    );
+    return this;
+  }
+
   many(ruleCb: callback) {
     this.$["MANY"](ruleCb);
     return this;
@@ -93,8 +111,8 @@ export class Parsx {
     });
   }
 
-  manySub(rule: any) {
-    this.$["MANY"](() => this.subrule(rule));
+  manySub(rule: any, opts: any = {}) {
+    this.$["MANY"](() => this.subrule(rule, opts));
     return this;
   }
 

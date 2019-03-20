@@ -76,65 +76,60 @@ export class Parser extends chevrotain.Parser {
   }
 
   actionRules() {
-    // $.RULE("actionExpression", () => {
-    //   $.SUBRULE($.action, { LABEL: "actionLit" });
-    //   $.SUBRULE($.multipleIdentifiersExpression, { LABEL: "multiIds" });
-    // });
+    const { $ } = this;
+    $.ruleFor("actionExpression", () => {
+      $.subrule("action", { LABEL: "actionLit" });
+      $.subrule("multipleIdentifiersExpression", { LABEL: "multiIds" });
+    });
   }
 
   actionRule() {
-    // $.RULE("action", () => {
-    //   $.OR([
-    //     {
-    //       ALT: () => $.CONSUME(Verify)
-    //     },
-    //     {
-    //       ALT: () => $.CONSUME(Match)
-    //     },
-    //     {
-    //       ALT: () => $.CONSUME(Validate)
-    //     },
-    //     {
-    //       ALT: () => $.CONSUME(SetLit)
-    //     }
-    //   ]);
-    // });
+    const { $ } = this;
+    $.ruleFor("action", () => {
+      $.consumeEither(["Verify", "Match", "Validate", "Set"]);
+    });
   }
 
   actRules() {
-    // $.RULE("actToExpression", () => {
-    //   $.SUBRULE($.toAction, { LABEL: "actionTo" });
-    //   $.SUBRULE($.multipleIdentifiersExpression, { LABEL: "ids" });
-    //   $.OPTION(() => {
-    //     $.SUBRULE($.toExpression, { LABEL: "to" });
-    //   });
-    // });
-    // $.RULE("toExpression", () => {
-    //   $.CONSUME(ToLit);
-    //   $.SUBRULE($.nestedIdentifierExpression, { LABEL: "nestedId" });
-    // });
-    // $.RULE("actInExpression", () => {
-    //   $.SUBRULE($.inAction, { LABEL: "actionIn" });
-    //   $.SUBRULE($.multipleIdentifiersExpression, { LABEL: "ids" });
-    //   $.OPTION(() => {
-    //     $.SUBRULE($.inExpression, { LABEL: "in" });
-    //   });
-    // });
-    // $.RULE("inExpression", () => {
-    //   $.CONSUME(InLit);
-    //   $.SUBRULE($.nestedIdentifierExpression, { LABEL: "nestedId" });
-    // });
-    // $.RULE("actFromExpression", () => {
-    //   $.SUBRULE($.fromAction, { LABEL: "actionFrom" });
-    //   $.SUBRULE($.multipleIdentifiersExpression, { LABEL: "ids" });
-    //   $.OPTION(() => {
-    //     $.SUBRULE($.fromExpression, { LABEL: "from" });
-    //   });
-    // });
-    // $.RULE("fromExpression", () => {
-    //   $.CONSUME(FromLit);
-    //   $.SUBRULE($.nestedIdentifierExpression, { LABEL: "nestedId" });
-    // });
+    const { $ } = this;
+    $.ruleFor("actToExpression", () => {
+      $.subrule("toAction", { LABEL: "actionTo" });
+      $.subrule("multipleIdentifiersExpression", { LABEL: "ids" });
+      $.optional(() => {
+        $.subrule("toExpression", { LABEL: "to" });
+      });
+    });
+
+    $.ruleFor("toExpression", () => {
+      $.consume("To");
+      $.subrule("nestedIdentifierExpression", { LABEL: "nestedId" });
+    });
+
+    $.ruleFor("actInExpression", () => {
+      $.subrule("inAction", { LABEL: "actionIn" });
+      $.subrule("multipleIdentifiersExpression", { LABEL: "ids" });
+      $.optional(() => {
+        $.subrule("inExpression", { LABEL: "in" });
+      });
+    });
+
+    $.ruleFor("inExpression", () => {
+      $.consume("In");
+      $.subrule("nestedIdentifierExpression", { LABEL: "nestedId" });
+    });
+
+    $.ruleFor("actFromExpression", () => {
+      $.subrule("fromAction", { LABEL: "actionFrom" });
+      $.subrule("multipleIdentifiersExpression", { LABEL: "ids" });
+      $.optional(() => {
+        $.subrule("fromExpression", { LABEL: "from" });
+      });
+    });
+
+    $.ruleFor("fromExpression", () => {
+      $.consume("From");
+      $.subrule("nestedIdentifierExpression", { LABEL: "nestedId" });
+    });
   }
 
   stopRule() {
@@ -178,143 +173,126 @@ export class Parser extends chevrotain.Parser {
   }
 
   subProcessRules() {
-    // $.RULE("subProcessExpression", () => {
-    //   $.CONSUME(ProcessLiteral);
-    //   $.CONSUME(Colon);
-    //   $.SUBRULE($.processBodyExpression, { LABEL: "processBody" });
-    // });
+    const { $ } = this;
+    $.ruleFor("subProcessExpression", () => {
+      $.consumes(["Process", ":"]);
+      $.subrule("processBodyExpression", { LABEL: "processBody" });
+    });
   }
 
   processBodyRules() {
-    // $.RULE("processBodyExpression", () => {
-    //   $.OR([
-    //     {
-    //       ALT: () => $.CONSUME(TodoLit)
-    //     },
-    //     {
-    //       ALT: () => $.SUBRULE($.processBodyLinesExpression, { LABEL: "lines" })
-    //     }
-    //   ]);
-    // });
+    const { $ } = this;
+    $.ruleFor("processBodyExpression", () => {
+      $.either([
+        () => $.consume("Todo"),
+        () => $.subrule("processBodyLinesExpression", { LABEL: "lines" })
+      ]);
+    });
   }
 
   processBodyLineRules() {
-    // $.RULE("processBodyLinesExpression", () => {
-    //   $.MANY(() => {
-    //     $.SUBRULE($.processBodyLineExpression, { LABEL: "subProcessLines" });
-    //   });
-    // });
-    // $.RULE("processBodyLineExpression", () => {
-    //   $.OR([
-    //     {
-    //       ALT: () => $.SUBRULE($.actInExpression, { LABEL: "actIn" })
-    //     },
-    //     {
-    //       ALT: () => $.SUBRULE($.actFromExpression, { LABEL: "actFrom" })
-    //     },
-    //     {
-    //       ALT: () => $.SUBRULE($.actToExpression, { LABEL: "actTo" })
-    //     },
-    //     {
-    //       ALT: () => $.SUBRULE($.ifThenElseExpression, { LABEL: "if" })
-    //     },
-    //     {
-    //       ALT: () => $.SUBRULE($.loopExpression, { LABEL: "loop" })
-    //     },
-    //     {
-    //       ALT: () => $.SUBRULE($.actionExpression, { LABEL: "action" })
-    //     }
-    //   ]);
-    // });
+    const { $ } = this;
+    $.ruleFor("processBodyLinesExpression", () => {
+      $.manySub("processBodyLineExpression", { LABEL: "subProcessLines" });
+    });
+
+    $.ruleFor("processBodyLineExpression", () => {
+      $.subruleEither([
+        { name: "actInExpression", label: "actIn" },
+        { name: "actFromExpression", label: "actFrom" },
+        { name: "actToExpression", label: "actTo" },
+        { name: "ifThenElseExpression", label: "if" },
+        { name: "loopExpression", label: "loop" },
+        { name: "actionExpression", label: "action" }
+      ]);
+    });
   }
 
+  // use composability = split into sub-parser instances
   identifierRules() {
     // TODO: call base.identifierRules()
   }
 
   returnRules() {
-    // $.RULE("returnExpression", () => {
-    //   $.CONSUME(Return);
-    //   $.CONSUME(Identifier);
-    // });
+    const { $ } = this;
+    $.ruleFor("returnExpression", () => {
+      $.consumes(["Return", "Identifier"]);
+    });
   }
 
   stepRules() {
-    // $.RULE("doStepExpression", () => {
-    //   $.CONSUME(Do);
-    //   $.CONSUME(Identifier);
-    //   $.OPTION(() => {
-    //     $.SUBRULE($.processBodyExpression, { LABEL: "processBody" });
-    //   });
-    // });
+    const { $ } = this;
+    $.ruleFor("doStepExpression", () => {
+      $.consumes(["Do", "Identifier"]);
+      $.optional(() => {
+        $.subrule("processBodyExpression", { LABEL: "processBody" });
+      });
+    });
   }
 
   validRules() {
-    // $.RULE("validExpression", () => {
-    //   $.OR([
-    //     {
-    //       ALT: () => $.CONSUME(Valid)
-    //     },
-    //     {
-    //       ALT: () => $.CONSUME(Invalid)
-    //     }
-    //   ]);
-    // });
+    const { $ } = this;
+    $.ruleFor("validExpression", () => {
+      $.consumeEither(["Valid", "Invalid"]);
+    });
   }
 
   conditionalRules() {
-    // $.RULE("conditionalExpression", () => {
-    //   $.CONSUME(Identifier);
-    //   $.OPTION(() => {
-    //     $.CONSUME(Is);
-    //     $.SUBRULE($.validExpression, { LABEL: "valid" });
-    //   });
-    // });
+    const { $ } = this;
+    $.ruleFor("conditionalExpression", () => {
+      $.consume("Identifier");
+      $.optional(() => {
+        $.consume("Is");
+        $.subrule("validExpression", { LABEL: "valid" });
+      });
+    });
   }
 
   ifThenElseRules() {
-    // $.RULE("ifThenElseExpression", () => {
-    //   $.CONSUME(If);
-    //   $.SUBRULE($.conditionalExpression, { LABEL: "condition" });
-    //   $.SUBRULE($.thenExpression, { LABEL: "then" });
-    //   $.SUBRULE($.elseExpression, { LABEL: "else" });
-    // });
-    // $.RULE("thenExpression", () => {
-    //   $.CONSUME(Then);
-    //   $.SUBRULE($.doBodyExpression, { LABEL: "thenBody" });
-    //   $.OPTION(() => {
-    //     $.SUBRULE($.returnExpression, { LABEL: "return" });
-    //   });
-    // });
-    // $.RULE("elseExpression", () => {
-    //   $.OPTION(() => {
-    //     $.CONSUME(Else);
-    //     $.SUBRULE($.elseBodyExpression, { LABEL: "elseBody" });
-    //   });
-    // });
-    // $.RULE("elseBodyExpression", () => {
-    //   $.SUBRULE($.doBodyExpression, { LABEL: "thenBody" });
-    //   $.OPTION(() => {
-    //     $.SUBRULE($.returnExpression, { LABEL: "return" });
-    //   });
-    // });
+    const { $ } = this;
+    $.ruleFor("ifThenElseExpression", () => {
+      $.consume("If");
+      $.subrule("conditionalExpression", { LABEL: "condition" });
+      $.subrule("thenExpression", { LABEL: "then" });
+      $.subrule("elseExpression", { LABEL: "else" });
+    });
+
+    $.ruleFor("thenExpression", () => {
+      $.consume("Then");
+      $.subrule("doBodyExpression", { LABEL: "thenBody" });
+      $.optional(() => {
+        $.subrule("returnExpression", { LABEL: "return" });
+      });
+    });
+
+    $.ruleFor("elseExpression", () => {
+      $.optional(() => {
+        $.consume("Else");
+        $.subrule("elseBodyExpression", { LABEL: "elseBody" });
+      });
+    });
+
+    $.ruleFor("elseBodyExpression", () => {
+      $.subrule("doBodyExpression", { LABEL: "thenBody" });
+      $.optional(() => {
+        $.subrule("returnExpression", { LABEL: "return" });
+      });
+    });
   }
 
   doStepsRules() {
-    // $.RULE("doStepsExpression", () => {
-    //   $.MANY(() => {
-    //     $.SUBRULE($.doStepExpression, { LABEL: "doStep" });
-    //   });
-    // });
+    const { $ } = this;
+    $.ruleFor("doStepsExpression", () => {
+      $.manySub("doStepExpression", { LABEL: "doStep" });
+    });
   }
 
   substepRules() {
-    // $.RULE("substepExpression", () => {
-    //   $.CONSUME(Substep);
-    //   $.CONSUME(Identifier);
-    //   $.CONSUME(Equal);
-    //   $.SUBRULE($.substepBodyExpression, { LABEL: "substepBody" });
-    // });
+    const { $ } = this;
+    $.ruleFor("substepExpression", () => {
+      $.consumes(["Substep", "Identifier", "="]);
+      $.subrule("substepBodyExpression", { LABEL: "substepBody" });
+    });
   }
 }
 
