@@ -38,7 +38,7 @@ export class WorkflowParser extends Parser {
     const { $ } = this;
 
     $.ruleFor("workflowExpression", () => {
-      $.consumes(["Workflow", ":", "String"]);
+      $.consumes(["workflow", ":", "<string>"]);
       $.subrule("workflowBodyExpression", { LABEL: "body" });
     });
 
@@ -62,7 +62,7 @@ export class WorkflowParser extends Parser {
   triggerRules() {
     const { $ } = this;
     $.ruleFor("triggerExpression", () => {
-      $.consumes(["Trigger", "Colon", "String"]);
+      $.consumes(["trigger", ":", "<string>"]);
     });
     return this;
   }
@@ -70,7 +70,7 @@ export class WorkflowParser extends Parser {
   inputRules() {
     const { $ } = this;
     $.ruleFor("inputsExpression", () => {
-      $.consumes(["Inputs", "Colon"]);
+      $.consumes(["inputs", ":"]);
       $.subrule("primaryExpression", { LABEL: "primary" });
       $.many(() => {
         $.subrule("otherExpression", { LABEL: "other" });
@@ -78,11 +78,11 @@ export class WorkflowParser extends Parser {
     });
 
     $.ruleFor("primaryExpression", () => {
-      $.consumes(["Primary", "Colon", "String"]);
+      $.consumes(["primary", ":", "<string>"]);
     });
 
     $.ruleFor("otherExpression", () => {
-      $.consumes(["Other", "Colon", "String"]);
+      $.consumes(["other", ":", "<string>"]);
     });
 
     return this;
@@ -91,18 +91,18 @@ export class WorkflowParser extends Parser {
   outputRules() {
     const { $ } = this;
     $.ruleFor("outputsExpression", () => {
-      $.consumes(["Outputs", "Colon"]);
+      $.consumes(["outputs", ":"]);
       $.subrule("successExpression", { LABEL: "success" });
       $.subrule("errorExpression", { LABEL: "error" });
     });
 
     $.ruleFor("successExpression", () => {
-      $.consumes(["Success", "Colon"]);
+      $.consumes(["success", ":"]);
       $.subrule("dataBodyExpression", { LABEL: "dataBody" });
     });
 
     $.ruleFor("errorExpression", () => {
-      $.consumes(["Error", "Colon"]);
+      $.consumes(["error", ":"]);
       $.subrule("dataBodyExpression", { LABEL: "dataBody" });
     });
 
@@ -112,18 +112,18 @@ export class WorkflowParser extends Parser {
   effectRules() {
     const { $ } = this;
     $.ruleFor("effectsExpression", () => {
-      $.consumes(["Effects", ":"]);
+      $.consumes(["effects", ":"]);
       $.many(() => {
         $.subrule("sendExpression", { LABEL: "send" });
       });
     });
 
     $.ruleFor("eventExpression", () => {
-      $.consumes(["Event", ":", "String"]);
+      $.consumes(["event", ":", "<string>"]);
     });
 
     $.ruleFor("sendExpression", () => {
-      $.consumes(["Send", ":", "String"]);
+      $.consumes(["send", ":", "<string>"]);
     });
 
     return this;
@@ -132,7 +132,7 @@ export class WorkflowParser extends Parser {
   dependencyRules() {
     const { $ } = this;
     $.ruleFor("dependenciesExpression", () => {
-      $.consumes(["Dependencies", ":"]);
+      $.consumes(["dependencies", ":"]);
       $.subrule("identifiersExpression", { LABEL: "ids" });
     });
     return this;
@@ -141,20 +141,20 @@ export class WorkflowParser extends Parser {
   identifierRules() {
     const { $ } = this;
     $.ruleFor("multipleIdentifiersExpression", () => {
-      $.manySeparatedBy("And", () => {
+      $.manySeparatedBy("and", () => {
         $.subrule("nestedIdentifierExpression", { LABEL: "nestedId" });
       });
     });
 
     $.ruleFor("identifiersExpression", () => {
       $.atLeastOneSeparatedBy(":", () => {
-        $.consume("Identifier");
+        $.consume("<ID>");
       });
     });
 
     $.ruleFor("nestedIdentifierExpression", () => {
       $.many(() => {
-        $.consume("Identifier");
+        $.consume("<ID>");
       });
     });
   }

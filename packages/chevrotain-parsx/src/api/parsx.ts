@@ -1,4 +1,5 @@
 import { Parser, TokenType, Rule } from "chevrotain";
+import { capitalize } from "../util";
 
 type callback = () => void;
 type IRule = any;
@@ -22,8 +23,16 @@ export class Parsx {
   $ = this.parser;
 
   getToken(name: string): TokenType {
-    const token = this.tokenMap[name];
-    return token || this.noToken(name);
+    if (name === "<string>") {
+      name = "String";
+    }
+    if (name === "<ID>") {
+      name = "Identifier";
+    }
+
+    const capName = capitalize(name);
+    const token = this.tokenMap[capName];
+    return token || this.noToken(capName);
   }
 
   noToken(name) {

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "appml",
+  "patterns": [
+    {
+      "include": "#string"
+    },
+    {
+      "include": "#keyword"
+    },
+    {
+      "include": "#type"
+    }
+  ],
+  "repository": {
+    "identifier": {
+      "patterns": [
+        {
+          "name": "identifier.appml",
+          "match": "([a-zA-Z_]\\w+)"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.appml",
+          "match": "(\".+\")"
+        }
+      ]
+    },
+    "keyword": {
+      "patterns": [
+        {
+          "name": "keyword.appml",
+          "match": "\b(data|workflow|trigger|trigges|inputs|input|outputs|output|effects)\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "type.appml",
+          "match": "\b(string|text|number|integer|decimal)\b"
+        }
+      ]
+    }
+  },
+  "scopeName": "source.appml"
+}

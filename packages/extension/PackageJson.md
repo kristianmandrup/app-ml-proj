@@ -133,11 +133,60 @@ The path to the file providing the [grammar](https://macromates.com/manual/en/la
 
 The concrete grammar for the `log` language can be found [here](https://github.com/gctse/syntax-highlighting-VS-Code-example/blob/master/log-example/syntaxes/log.tmLanguage.json)
 
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "log",
+  "patterns": [
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#date"
+    }
+  ],
+  "repository": {
+    "keywords": {
+      "patterns": [
+        {
+          "name": "constant.regexp.log",
+          "match": "(LOG)"
+        },
+        {
+          "name": "comment.log",
+          "match": "(--SUC--)"
+        },
+        {
+          "name": "invalid.log",
+          "match": "(--ERR--)"
+        }
+      ]
+    },
+    "date": {
+      "patterns": [
+        {
+          "match": "([0-9]{4}-[0-9]{2}-[0-9]{2})( - )([0-9]{2}:[0-9]{2}:[0-9]{2})",
+          "captures": {
+            "1": {
+              "name": "markup.changed.log"
+            },
+            "3": {
+              "name": "markup.changed.log"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "scopeName": "source.log"
+}
+```
+
 ### Example grammar
 
 For the `grammars` section (`"path": "./syntaxes/log.tmLanguage.json"`)
 
-```js
+```txt
  1  {  scopeName = 'source.untitled';
  2     fileTypes = ( );
  3     foldingStartMarker = '\{\s*$';

@@ -1,39 +1,35 @@
 {
-    "name": "log-example",
-    "displayName": "log-example",
-    "description": "A simple extension for log syntax highlighting.",
-    "version": "0.0.1",
-    "publisher": "gcroteau",
-    "engines": {
-        "vscode": "^1.5.0"
-    },
-    "categories": [
-        "Languages"
-    ],
-    "contributes": {
-        "languages": [
-            {
-                "id": "log",
-                "aliases": [
-                    "log",
-                    "log"
-                ],
-                "extensions": [
-                    ".log"
-                ],
-                "configuration": "./language-configuration.json"
-            }
+  "name": "app-ml",
+  "displayName": "AppML",
+  "description": "Extension for app-ml syntax highlighting.",
+  "version": "0.0.1",
+  "publisher": "kmandrup",
+  "engines": {
+    "vscode": "^1.5.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "appml",
+        "aliases": [
+          "aml",
+          "appml"
         ],
-        "grammars": [
-            {
-                "language": "log",
-                "scopeName": "source.log",
-                "path": "./syntaxes/log.tmLanguage.json"
-            }
-        ]
-    },
-    "dependencies": {
-        "chevrotain-lexx": "^1.0.0",
-        "chevrotain-parsx": "^1.0.0"
-    }
+        "extensions": [
+          ".appml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "appml",
+        "scopeName": "source.appml",
+        "path": "./syntaxes/appml.tmLanguage.json"
+      }
+    ]
+  }
 }
