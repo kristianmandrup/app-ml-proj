@@ -17,9 +17,31 @@ export class Lexx {
     ",": "Comma",
     ":": "Colon",
     ";": "SemiColon",
-    "=": "Equal",
+    "=": "Assign",
+    "==": "Equal",
+    "!==": "NotEqual",
     "!": "Exclamation",
-    "?": "Question"
+    "?": "Question",
+    "#": "Hash",
+    $: "Dollar",
+    "&": "And",
+    "-": "Minus",
+    "+": "Plus",
+    "*": "Times",
+    "%": "Percent",
+    ".": "Dot",
+    "@": "Ampersand",
+    _: "Underscore",
+    ">": "GreaterThan",
+    "<": "LessThan",
+    "/": "Forwardslash",
+    "\\": "Backslash",
+    "(": "LeftParens",
+    ")": "RightParens",
+    "[": "LeftSquareBracket",
+    "]": "RightSquareBracket",
+    "{": "LeftCurlyBracket",
+    "}": "RightCurlyBracket"
   };
 
   opts = {};
@@ -28,9 +50,15 @@ export class Lexx {
     if (!isObject(opts)) {
       throw `Invalid opts: ${opts}`;
     }
+    const tokenMap = this.tokenMap || {};
     this.opts = {
+      ...this.opts,
       ...this.defaultOpts,
       opts
+    };
+    this.tokenMap = {
+      ...this.tokenMap,
+      ...tokenMap
     };
   }
 
@@ -71,7 +99,7 @@ export class Lexx {
     return orderTokens(this.tokenOrder, this.tokenMaps);
   }
 
-  addToken = (name, token) => {
+  addToken = (name: string, token: string) => {
     this.tokenMaps[name] = token;
   };
 
