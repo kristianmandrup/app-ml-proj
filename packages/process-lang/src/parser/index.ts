@@ -10,9 +10,9 @@ export class ProcessParser extends Parser {
   $: Parsx;
   baseParser: BaseParser;
 
-  constructor(tokens?: any[]) {
-    super(tokens || allTokens);
-    this.$ = createParsx(this);
+  constructor(opts: any = {}) {
+    super(opts.tokens || allTokens);
+    this.$ = opts.$ || createParsx(this);
     this.defaultRule();
 
     // very important to call this after all the rules have been defined.
