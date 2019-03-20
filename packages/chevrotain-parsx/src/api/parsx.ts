@@ -57,10 +57,6 @@ export class Parsx {
     return this.$["RULE"](name, cb);
   }
 
-  rule(name: string) {
-    return this.$[name];
-  }
-
   subrule(rule: any, opts: any = {}) {
     this.$["SUBRULE"](rule, opts);
     return this;
@@ -95,7 +91,7 @@ export class Parsx {
     this.$["OR"](
       subrules.map(rule => {
         const opts = {
-          label: rule.label,
+          LABEL: rule.label,
           ...rule.opts
         };
         return { ALT: () => this.subrule(rule.name, opts) };

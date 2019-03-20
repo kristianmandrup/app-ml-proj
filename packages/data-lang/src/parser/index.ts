@@ -22,11 +22,13 @@ import { BaseParser } from "base-lang";
 export class DataParser extends Parser {
   $: Parsx;
   baseParser: BaseParser;
-  analysis: boolean = true;
+  analyse: boolean = true;
 
   constructor(opts: any = {}) {
     super(opts.tokens || allTokens);
     this.$ = opts.$ || createParsx(this);
+    this.analyse = opts.analysis != false;
+
     this.compose();
     this.baseRules();
     this.defaultRule();
@@ -34,7 +36,7 @@ export class DataParser extends Parser {
   }
 
   onRulesLoader() {
-    if (!this.analysis) return;
+    if (!this.analyse) return;
     // very important to call this after all the rules have been defined.
     // otherwise the parser may not work correctly as it will lack information
     // derived during the self analysis phase.
