@@ -45,6 +45,30 @@ The above installs all dependencies and opens one VS Code instances containing b
 
 Follow the example...
 
+### Additional Language Server features
+
+See [Programmatic language features](https://code.visualstudio.com/api/language-extensions/programmatic-language-features) for additional IDE features that can be added.
+
+The following language features are currently supported in a language server along with code completions:
+
+- `Document Highlights`: highlights all 'equal' symbols in a text document.
+- `Hover`: provides hover information for a symbol selected in a text document.
+- `Signature Help`: provides signature help for a symbol selected in a text document.
+- `Goto Definition`: provides go to definition support for a symbol selected in a text document.
+- `Goto Type Definition`: provides go to type/interface definition support for a symbol selected in a text document.
+- `Goto Implementation`: provides go to implementation definition support for a symbol selected in a text document.
+- `Find References`: finds all project-wide references for a symbol selected in a text document.
+- `List Document Symbols`: lists all symbols defined in a text document.
+- `List Workspace Symbols`: lists all project-wide symbols.
+- `Code Actions`: compute commands to run (typically beautify/refactor) for a given text document and range.
+- `CodeLens`: compute CodeLens statistics for a given text document.
+- `Document Formatting`: this includes formatting of whole documents, document ranges and formatting on type.
+- `Rename`: project-wide rename of a symbol.
+- `Document Links`: compute and resolve links inside a document.
+- `Document Colors`: compute and resolve colors inside a document to provide color picker in editor.
+
+The [Programmatic language features](https://code.visualstudio.com/api/language-extensions/programmatic-language-features) topic describes each of the language features above and provides guidance on how to implement them either through the language server protocol or by using the extensibility API directly from your extension.
+
 ### DOT language
 
 - [Why You Should Know the Language Server Protocol](https://tomassetti.me/what-is-the-language-server-protocol/)

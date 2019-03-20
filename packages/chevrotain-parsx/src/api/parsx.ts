@@ -76,6 +76,11 @@ export class Parsx {
     return this;
   }
 
+  consumeOptional(token: any) {
+    this.$["OPTION"](() => this.consume(token));
+    return this;
+  }
+
   either(ruleCbs: callback[]) {
     this.$["OR"](ruleCbs.map(rule => ({ ALT: rule })));
     return this;

@@ -3,6 +3,7 @@ import { allTokens, tokenMap } from "./lexer";
 import { createParsx } from "chevrotain-parsx";
 import { Parsx } from "chevrotain-parsx/src/api/parsx";
 import { ProcessParser } from "process-lang";
+import { BaseParser } from "base-lang";
 
 // ----------------- parser -----------------
 // Note that this is a Pure grammar, it only describes the grammar
@@ -11,6 +12,7 @@ export class WorkflowParser extends Parser {
   tokenMap: any;
   $: Parsx;
   processParser: ProcessParser;
+  baseParser: BaseParser;
 
   constructor(allTokens, tokenMap) {
     super(allTokens);
@@ -18,6 +20,11 @@ export class WorkflowParser extends Parser {
 
     // const $ = this;
     this.$ = createParsx(this);
+
+    this.compose();
+
+    this.baseRules();
+    // this.processRules();
 
     this.defaultRule();
     this.workflowRules();
@@ -30,7 +37,9 @@ export class WorkflowParser extends Parser {
   }
 
   compose() {
-    this.processParser = new ProcessParser({ $: this.$ });
+    const opts = { $: this.$ };
+    this.baseParser = new BaseParser(opts);
+    this.processParser = new ProcessParser(opts);
   }
 
   defaultRule() {
@@ -40,7 +49,13 @@ export class WorkflowParser extends Parser {
     });
   }
 
-  processRules() {}
+  baseRules() {
+    this.baseParser.defaultRule();
+  }
+
+  processRules() {
+    this.processParser.defaultRule();
+  }
 
   workflowRules() {
     const { $ } = this;

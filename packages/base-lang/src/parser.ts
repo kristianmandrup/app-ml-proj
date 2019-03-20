@@ -9,6 +9,7 @@ import { Parsx } from "chevrotain-parsx/src/api/parsx";
 export class BaseParser extends Parser {
   tokenMap: any;
   $: Parsx;
+  analyse: boolean = true;
 
   constructor(opts: any = {}) {
     super(opts.tokens || allTokens);
@@ -16,18 +17,31 @@ export class BaseParser extends Parser {
 
     // const $ = this;
     this.$ = opts.$ || createParsx(this);
+    this.analyse = opts.analysis != false;
 
-    this.defaultRule();
-    this.identifierRules();
+    this.rules();
 
     // very important to call this after all the rules have been defined.
     // otherwise the parser may not work correctly as it will lack information
     // derived during the self analysis phase.
+    this.onRulesLoaded();
+  }
+
+  onRulesLoaded() {
+    if (!this.analyse) return;
     this.performSelfAnalysis();
   }
 
-  defaultRule() {
+  rules() {
+    this.contextRule();
+    this.identifierRules();
+  }
+
+  contextRule() {
     const { $ } = this;
+    $.ruleFor("boundedContextExpression", () => {
+      $.consumes(["context", ":", "<string>"]);
+    });
   }
 
   identifierRules() {

@@ -13,6 +13,11 @@ export class ProcessParser extends Parser {
   constructor(opts: any = {}) {
     super(opts.tokens || allTokens);
     this.$ = opts.$ || createParsx(this);
+
+    this.compose();
+
+    this.baseRules();
+
     this.defaultRule();
 
     // very important to call this after all the rules have been defined.
@@ -23,6 +28,10 @@ export class ProcessParser extends Parser {
 
   compose() {
     this.baseParser = new BaseParser({ $: this.$ });
+  }
+
+  baseRules() {
+    this.baseParser.rules();
   }
 
   defaultRule() {
