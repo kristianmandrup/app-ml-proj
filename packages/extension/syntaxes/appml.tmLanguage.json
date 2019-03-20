@@ -6,18 +6,38 @@
       "include": "#string"
     },
     {
+      "include": "#section"
+    },
+    {
+      "include": "#subsection"
+    },
+    {
       "include": "#keyword"
     },
     {
       "include": "#type"
+    },
+    {
+      "include": "#classId"
+    },
+    {
+      "include": "#functionId"
     }
   ],
   "repository": {
-    "identifier": {
+    "classId": {
       "patterns": [
         {
-          "name": "identifier.appml",
-          "match": "([a-zA-Z_]\\w+)"
+          "name": "entity.name.class.appml",
+          "match": "([A-Z]\\w+)"
+        }
+      ]
+    },
+    "functionId": {
+      "patterns": [
+        {
+          "name": "entity.name.function.appml",
+          "match": "([a-z]\\w+)"
         }
       ]
     },
@@ -29,18 +49,42 @@
         }
       ]
     },
+    "section": {
+      "patterns": [
+        {
+          "name": "strong.keyword.appml",
+          "match": "\b(data|workflow|process)\b"
+        }
+      ]
+    },
+    "subsection": {
+      "patterns": [
+        {
+          "name": "emphasis.keyword.appml",
+          "match": "\b(trigger|trigges|inputs|input|primary|outputs|output|effects)\b"
+        }
+      ]
+    },
     "keyword": {
       "patterns": [
         {
           "name": "keyword.appml",
-          "match": "\b(data|workflow|trigger|trigges|inputs|input|outputs|output|effects)\b"
+          "match": "\b(AND|list of|primary|other|success|error|send|validate|check|stop|do|is|exists|return|ok|valid|invalid|get|set|None)\b"
+        }
+      ]
+    },
+    "controlKeyword": {
+      "patterns": [
+        {
+          "name": "keyword.control.appml",
+          "match": "\b(if|then|else|for|each)\b"
         }
       ]
     },
     "types": {
       "patterns": [
         {
-          "name": "type.appml",
+          "name": "storage.type.appml",
           "match": "\b(string|text|number|integer|decimal)\b"
         }
       ]

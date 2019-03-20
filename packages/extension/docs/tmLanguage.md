@@ -21,6 +21,7 @@ Most common tokens:
 - `entity.name.function`
 - `entity.name.class`
 - `entity.other.attribute-name`
+- `storage.type`
 
 A simple extension example can be found [here](https://github.com/gctse/syntax-highlighting-VS-Code-example)
 
