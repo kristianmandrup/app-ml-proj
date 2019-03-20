@@ -32,7 +32,7 @@ export const createLitTokens = (items: ITokenItem[], opts: ITokenOpts = {}) => {
 
 type ITokenItem = string | ITokenOpts;
 
-const stringToTokenOpts = (item: ITokenItem, opts: any = {}) => {
+export const stringToTokenOpts = (item: ITokenItem, opts: any = {}) => {
   if (!isString(item)) {
     throw `stringToTokenOpts: expected a string, was: ${item}`;
   }
@@ -43,6 +43,9 @@ const stringToTokenOpts = (item: ITokenItem, opts: any = {}) => {
   return { name, pattern };
 };
 
-const extractTokenOpts = (item: ITokenItem, opts: any = {}): ITokenOpts => {
+export const extractTokenOpts = (
+  item: ITokenItem,
+  opts: any = {}
+): ITokenOpts => {
   return isString(item) ? stringToTokenOpts(item, opts) : (item as ITokenOpts);
 };

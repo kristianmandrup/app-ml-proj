@@ -1,15 +1,16 @@
 import * as factories from "./special";
-import { camelize } from "../util";
+import { isString, camelize } from "../util";
 
-export const createSpecialLits = (names: string[]) => {
-  return names.map(createSpecialLit);
+export const createSpecialLits = (items: any[]) => {
+  return items.map(createSpecialLit);
 };
 
-export const createSpecialLit = (name: string) => {
+export const createSpecialLit = (item: any, opts: any = {}) => {
+  const name = isString(item) ? item : item.name;
   const factoryName = `create${camelize(name)}Lit`;
   const method = factories[factoryName];
   if (!method) {
     throw `Missing factory method ${factoryName}`;
   }
-  return method();
+  return method(opts);
 };

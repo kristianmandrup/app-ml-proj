@@ -16,7 +16,26 @@ export const createDecimalLit = (opts: ITokenOpts = {}) => {
 
 export const createIdLit = (opts: ITokenOpts = {}) => {
   opts.name = opts.name || "IdLit";
+  if (opts.upcase) {
+    return createIdFirstUpperCaseLit(opts);
+  }
+  if (opts.lowcase) {
+    return createIdFirstLowerCaseLit(opts);
+  }
+
   opts.pattern = opts.pattern || /[a-zA-z_]\w+/;
+  return createLitToken(opts);
+};
+
+export const createIdFirstUpperCaseLit = (opts: ITokenOpts = {}) => {
+  opts.name = opts.name || "IdLit";
+  opts.pattern = opts.pattern || /[A-Z_]\w+/;
+  return createLitToken(opts);
+};
+
+export const createIdFirstLowerCaseLit = (opts: ITokenOpts = {}) => {
+  opts.name = opts.name || "IdLit";
+  opts.pattern = opts.pattern || /[a-z_]\w+/;
   return createLitToken(opts);
 };
 
