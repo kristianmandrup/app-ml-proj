@@ -1,16 +1,17 @@
-import * as chevrotain from "chevrotain";
-import { allTokens } from "./lexer";
+import { Parser } from "chevrotain";
+import { allTokens } from "../lexer";
 import { createParsx } from "chevrotain-parsx";
 import { Parsx } from "chevrotain-parsx/src/api/parsx";
-
+import { BaseParser } from "base-lang";
 // ----------------- parser -----------------
 // Note that this is a Pure grammar, it only describes the grammar
 // Not any actions (semantics) to perform during parsing.
-export class Parser extends chevrotain.Parser {
+export class ProcessParser extends Parser {
   $: Parsx;
+  baseParser: BaseParser;
 
-  constructor() {
-    super(allTokens);
+  constructor(tokens?: any[]) {
+    super(tokens || allTokens);
     this.$ = createParsx(this);
     this.defaultRule();
 
@@ -18,6 +19,10 @@ export class Parser extends chevrotain.Parser {
     // otherwise the parser may not work correctly as it will lack information
     // derived during the self analysis phase.
     this.performSelfAnalysis();
+  }
+
+  compose() {
+    this.baseParser = new BaseParser({ $: this.$ });
   }
 
   defaultRule() {
@@ -210,7 +215,7 @@ export class Parser extends chevrotain.Parser {
 
   // use composability = split into sub-parser instances
   identifierRules() {
-    // TODO: call base.identifierRules()
+    this.baseParser.identifierRules();
   }
 
   returnRules() {
@@ -298,4 +303,4 @@ export class Parser extends chevrotain.Parser {
 
 // wrapping it all together
 // reuse the same parser instance.
-export const parser = new Parser();
+export const parser = new ProcessParser();

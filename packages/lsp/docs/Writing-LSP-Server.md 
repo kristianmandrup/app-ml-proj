@@ -101,6 +101,8 @@ Add an `onCompletion` callback that takes the current document position and retu
 
 ![](./images/code-completion.png)
 
+See [Adding additional Language Features](https://code.visualstudio.com/api/language-extensions/language-server-extension-guide#adding-additional-language-features)
+
 ```ts
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
 	let text = documents.get(textDocumentPosition.textDocument.uri).getText();
@@ -198,6 +200,12 @@ We should always send all the suggestions (labels) to the client. Visual Studio 
 ```
 
 `data` can be used to add meta data useful later (see `Completion resolve` below).
+
+The `data` field is used to uniquely identify a completion item in the resolve handler. 
+The `data` property is transparent for the protocol. 
+
+Since the underlying message passing protocol is JSON based, 
+the `data` field should only hold data that is serializable to and from JSON.
 
 A typical `CompletionItem` object might look as follows
 
@@ -553,3 +561,134 @@ What this means is that for input areas that are currently being edited (or even
 See [Example of Content assist feature](https://github.com/SAP/chevrotain/blob/master/examples/parser/content_assist/official_feature_content_assist.js)
 
 See this [issue](https://github.com/SAP/chevrotain/issues/923) on how to understand the example and how to possibly leverage this feature!
+
+## Testing The Language Server
+
+To create a high-quality Language Server, we need to build a good test suite covering its functionalities. There are two common ways of testing Language Servers:
+
+- Unit Test: This is useful if you want to test specific functionalities in Language Servers by mocking up all the information being sent to it. VS Code's HTML / CSS / JSON Language Servers take this approach to testing. The LSP npm modules itself use the approach. See here for some unit test written using the npm protocol module.
+- End-to-End Test: This is similar to VS Code extension test. The benefit of this approach is that it runs the test by instantiating a VS Code instance with a workspace, opening the file, activating the Language Client / Server and running VS Code commands. This approach is superior if you have files, settings or dependencies (such as node_modules) which are hard or impossible to mock. The popular Python extension takes this approach to testing.
+
+It is possible to do Unit Test in any testing framework of your choice. Here we describe how to do End-to-End testing for Language Server Extension.
+
+### E2E
+
+Open `.vscode/launch.json`, and you can find a E2E test target:
+
+```json
+{
+  "name": "Language Server E2E Test",
+  "type": "extensionHost",
+  "request": "launch",
+  "runtimeExecutable": "${execPath}",
+  "args": [
+    "--extensionDevelopmentPath=${workspaceRoot}",
+    "--extensionTestsPath=${workspaceRoot}/client/out/test",
+    "${workspaceRoot}/client/testFixture"
+  ],
+  "stopOnEntry": false,
+  "sourceMaps": true,
+  "outFiles": ["${workspaceRoot}/client/out/test/**/*.js"]
+}
+```
+
+If you run this debug target, it will launch a VS Code instance with `client/testFixture` as the 
+active workspace. 
+
+VS Code will then proceed to execute all tests in client/src/test. 
+As a debugging tip, you can set breakpoints in TypeScript files in `client/src/test` and 
+they will be hit.
+
+Let's take a look at the completion.test.ts file:
+
+```ts
+import * as vscode from 'vscode';
+import * as assert from 'assert';
+import { getDocUri, activate } from './helper';
+
+describe('Should do completion', () => {
+  const docUri = getDocUri('completion.txt');
+
+  it('Completes JS/TS in txt file', async () => {
+    await testCompletion(docUri, new vscode.Position(0, 0), {
+      items: [
+        { label: 'JavaScript', kind: vscode.CompletionItemKind.Text },
+        { label: 'TypeScript', kind: vscode.CompletionItemKind.Text }
+      ]
+    });
+  });
+});
+
+async function testCompletion(
+  docUri: vscode.Uri,
+  position: vscode.Position,
+  expectedCompletionList: vscode.CompletionList
+) {
+  await activate(docUri);
+
+  // Executing the command `vscode.executeCompletionItemProvider` to simulate triggering completion
+  const actualCompletionList = (await vscode.commands.executeCommand(
+    'vscode.executeCompletionItemProvider',
+    docUri,
+    position
+  )) as vscode.CompletionList;
+
+  assert.equal(actualCompletionList.items.length, expectedCompletionList.items.length);
+  expectedCompletionList.items.forEach((expectedItem, i) => {
+    const actualItem = actualCompletionList.items[i];
+    assert.equal(actualItem.label, expectedItem.label);
+    assert.equal(actualItem.kind, expectedItem.kind);
+  });
+}
+```
+
+In this test, we:
+
+- Activate the extension.
+- Run the command vscode.executeCompletionItemProvider with a URI and a position to simulate completion trigger.
+- Assert the returned completion items against our expected completion items.
+
+
+Let's dive a bit deeper into the activate(docURI) function. It is defined in client/src/test/helper.ts:
+
+```ts
+import * as vscode from 'vscode';
+import * as path from 'path';
+
+export let doc: vscode.TextDocument;
+export let editor: vscode.TextEditor;
+export let documentEol: string;
+export let platformEol: string;
+
+/**
+ * Activates the vscode.lsp-sample extension
+ */
+export async function activate(docUri: vscode.Uri) {
+  // The extensionId is `publisher.name` from package.json
+  const ext = vscode.extensions.getExtension('vscode.lsp-sample');
+  await ext.activate();
+  try {
+    doc = await vscode.workspace.openTextDocument(docUri);
+    editor = await vscode.window.showTextDocument(doc);
+    await sleep(2000); // Wait for server activation
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+```
+
+In the activation part, we:
+
+- Get the extension using the {publisher.name}.{extensionId}, as defined in package.json.
+- Open the specified document, and show it in the active text editor.
+- Sleep for 2 seconds, so we are sure the Language Server is instantiated.
+
+After the preparation, we can run the VS Code Commands corresponding to each language feature, and assert against the returned result.
+
+There is one more test that covers the diagnostics feature that we just implemented. 
+Check it out at client/src/test/diagnostics.test.ts.
+
