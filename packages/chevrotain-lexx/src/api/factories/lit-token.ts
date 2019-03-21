@@ -16,9 +16,9 @@ export const createLitToken = (opts: any = {}) => {
   if (!isObject(opts)) {
     throw `Invalid token opts: ${typeof opts} ${opts}`;
   }
-  let { name } = opts;
+  let name = opts.name;
   if (!name) {
-    throw `Missing name in opts: ${stringify(opts)}`;
+    throw `Missing name in opts: ${name} in ${stringify(opts)}`;
   }
   name = camelize(name);
   opts.name = name;

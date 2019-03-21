@@ -1,4 +1,4 @@
-import { orderTokens, orderTokenMap } from "./order";
+import { createMatchesAny, orderTokens, orderTokenMap } from "./order";
 
 describe("order", () => {
   describe("orderTokenMap", () => {
@@ -9,6 +9,20 @@ describe("order", () => {
         validate: true
       };
       expect(orderTokenMap(tokenMap)).toEqual(["invalid", "validate", "valid"]);
+    });
+  });
+
+  describe("createMatchesAny", () => {
+    const matchAny = createMatchesAny(["valid", "invalid"]);
+
+    describe("valid,invalid", () => {
+      test("valid matches invalid", () => {
+        expect(matchAny("valid")).toBeFalsy();
+      });
+
+      test("invalid matches none (only self)", () => {
+        expect(matchAny("invalid")).toEqual("valid");
+      });
     });
   });
 

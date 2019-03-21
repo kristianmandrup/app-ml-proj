@@ -26,7 +26,7 @@ export class Lexx {
     this.opts = {
       ...this.opts,
       ...this.defaultOpts,
-      opts
+      ...opts
     };
     this.tokenAliasMap = {
       ...this.tokenAliasMap,
@@ -43,27 +43,27 @@ export class Lexx {
 
   optsFor = (opts: any = {}) => ({
     ...this.opts,
-    opts
+    ...opts
   });
 
   createLitToken(opts = {}) {
-    factories.createLitToken(this.optsFor(opts));
+    return factories.createLitToken(this.optsFor(opts));
   }
 
   createLitTokens(names, opts: any = {}) {
-    factories.createLitTokens(names, this.optsFor(opts));
+    return factories.createLitTokens(names, this.optsFor(opts));
   }
 
   createTypeToken(name: string, opts = {}) {
-    factories.createTypeToken(name, this.optsFor(opts));
+    return factories.createTypeToken(name, this.optsFor(opts));
   }
 
   createTypeTokens(names, opts: any = {}) {
-    factories.createTypeTokens(names, this.optsFor(opts));
+    return factories.createTypeTokens(names, this.optsFor(opts));
   }
 
   createSpecialLits(names: string[]) {
-    factories.createSpecialLits(names);
+    return factories.createSpecialLits(names);
   }
 
   // use order on literals collected

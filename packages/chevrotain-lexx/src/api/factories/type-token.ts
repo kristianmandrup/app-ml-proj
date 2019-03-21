@@ -17,5 +17,5 @@ export const createTypeTokens = (names: string[], opts: ITokenOpts = {}) => {
 };
 
 export const createTypeToken = (name: string, opts: ITokenOpts = {}) => {
-  return createLitToken({ name: typeTokenName(name), ...opts });
+  return createLitToken({ ...typeTokenName(name), ...opts });
 };

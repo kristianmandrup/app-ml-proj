@@ -2,7 +2,7 @@ import { Lexx } from "./lexx";
 import { TextDecoder } from "util";
 
 const keysOf = Object.keys;
-describe.skip("Lexx", () => {
+describe("Lexx", () => {
   describe("create", () => {
     test("no opts", () => {
       expect(new Lexx()).toBeDefined();
@@ -19,21 +19,21 @@ describe.skip("Lexx", () => {
     describe("defaultOpts", () => {
       const opts = lexx.defaultOpts;
       test("keys", () => {
-        expect(keysOf(opts)).toContain(["addToken", "tokenName"]);
+        expect(keysOf(opts)).toEqual(["addToken", "tokenName"]);
       });
     });
 
     describe("optsFor", () => {
       test("no opts - default", () => {
         const opts = {};
-        expect(keysOf(lexx.optsFor(opts))).toContain(["addToken", "tokenName"]);
+        expect(keysOf(lexx.optsFor(opts))).toEqual(["addToken", "tokenName"]);
       });
 
       test("some opts - default + some", () => {
         const opts = {
           x: 2
         };
-        expect(keysOf(lexx.optsFor(opts))).toContain([
+        expect(keysOf(lexx.optsFor(opts))).toEqual([
           "addToken",
           "tokenName",
           "x"
@@ -43,7 +43,7 @@ describe.skip("Lexx", () => {
 
     describe("createLitToken", () => {
       test("no opts", () => {
-        const name = ["and"];
+        const name = "and";
         const token = lexx.createLitToken({ name });
         expect(token).toBeDefined();
       });
@@ -59,8 +59,8 @@ describe.skip("Lexx", () => {
 
     describe("createTypeToken", () => {
       test("no opts", () => {
-        const name = ["and"];
-        const token = lexx.createLitToken({ name });
+        const name = "and";
+        const token = lexx.createTypeToken("name");
         expect(token).toBeDefined();
       });
     });
@@ -72,9 +72,9 @@ describe.skip("Lexx", () => {
         expect(tokens).toBeDefined();
       });
 
-      test("invalid type opts", () => {
+      test("funny types - no check - ok", () => {
         const names = ["decimal", "unknown"];
-        expect(() => lexx.createTypeTokens(names)).toThrow();
+        expect(() => lexx.createTypeTokens(names)).not.toThrow();
       });
     });
   });
