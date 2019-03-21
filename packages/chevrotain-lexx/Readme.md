@@ -86,3 +86,75 @@ lexx.addToken(":", "Colon");
 ```ts
 lexx.tokenName(":");
 ```
+
+## Internals
+
+### token order
+
+Lexx internally groups tokens in the following grouping "containers" and ensures they are returned
+in that order. This is important so that the right match (precdence) is returned.
+
+F.ex if a number token is before a decimal, the decimal will never match since the part before the `.` will match the number token and be returned. Similarly with identifiers. We want to ensure that no keywords (token container) have been matched before trying to match as an identifier.
+
+```ts
+tokenOrder = ["whiteSpace", "decimals", "numbers", "tokens", "identifiers"];
+```
+
+The chevrotain `Lexer` class leaves it up to you the developer to return tokens in a sensible order. `Lexx` encodes this order.
+
+To customize this ordering, such as adding more groupings, simply subclass `Lexx`
+
+### token map
+
+`Lexx` uses a token map `tokenMap` to register mappings from symbols to token names.
+This makes it possible to use the symbol in place of the token name, f.ex in the parser.
+So instead of:
+
+```ts
+$.consumes(["workflow", "colon"]);
+```
+
+You can use `:` in place of `colon` so it reads more naturally.
+
+```ts
+$.consumes(["workflow", ":"]);
+```
+
+The default `tokenMap` is as follows. You can pass in a custom `tokenMap` as an option to the constructor which will be merged on top of the default `tokenMap`
+
+```ts
+tokenMap = {
+  ",": "Comma",
+  ":": "Colon",
+  ";": "SemiColon",
+  "=": "Assign",
+  "==": "Equal",
+  "!==": "NotEqual",
+  "!": "Exclamation",
+  "?": "Question",
+  "#": "Hash",
+  $: "Dollar",
+  "&": "And",
+  "-": "Minus",
+  "+": "Plus",
+  "*": "Times",
+  "%": "Percent",
+  ".": "Dot",
+  "@": "Ampersand",
+  '"': "DoubleQuote",
+  "'": "SingleQuote",
+  "`": "BackTick",
+  "|": "Pipe",
+  _: "Underscore",
+  ">": "GreaterThan",
+  "<": "LessThan",
+  "/": "Forwardslash",
+  "\\": "Backslash",
+  "(": "LeftParens",
+  ")": "RightParens",
+  "[": "LeftSquareBracket",
+  "]": "RightSquareBracket",
+  "{": "LeftCurlyBracket",
+  "}": "RightCurlyBracket"
+};
+```
