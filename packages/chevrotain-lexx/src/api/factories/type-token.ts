@@ -10,10 +10,10 @@ export const typeTokenName = (name: string) => ({
   match: name
 });
 
-const typeTokenNames = (names: string[]) => names.map(typeTokenName);
+// const typeTokenNames = (names: string[]) => names.map(typeTokenName);
 
 export const createTypeTokens = (names: string[], opts: ITokenOpts = {}) => {
-  return createLitTokens(typeTokenNames(names), opts);
+  return names.map(name => createTypeToken(name, opts));
 };
 
 export const createTypeToken = (name: string, opts: ITokenOpts = {}) => {

@@ -10,6 +10,13 @@ describe("factories", () => {
     test("valid string - no throw", () => {
       const item = "id";
       expect(() => stringToTokenOpts(item)).not.toThrow();
+      const opts = stringToTokenOpts(item);
+      expect(opts).toEqual({ name: "id", pattern: /id/ });
+    });
+
+    test("empty string - to throw", () => {
+      const item = "";
+      expect(() => stringToTokenOpts(item)).toThrow();
     });
   });
 

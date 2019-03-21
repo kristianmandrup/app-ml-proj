@@ -1,58 +1,58 @@
 import {
-  createStringLit,
-  createWhiteSpace,
-  createNumberLit,
-  createDecimalLit,
-  createIdLit
+  createString,
+  createWhitespace,
+  createNumber,
+  createDecimal,
+  createId
 } from "./special";
 
 describe("special", () => {
-  describe("createNumberLit", () => {
+  describe("createNumber", () => {
     test("no args - default", () => {
-      const token = createNumberLit();
+      const token = createNumber();
       expect(token).toBeDefined();
     });
 
     test("empty item - default", () => {
-      const token = createNumberLit({});
+      const token = createNumber({});
       expect(token).toBeDefined();
     });
   });
 
-  describe("createDecimalLit", () => {
+  describe("createDecimal", () => {
     test("no args - default", () => {
-      const token = createDecimalLit();
+      const token = createDecimal();
       expect(token).toBeDefined();
     });
   });
 
-  describe("createIdLit", () => {
+  describe("createId", () => {
     test("no args - default", () => {
-      const token = createIdLit();
+      const token = createId();
       expect(token).toBeDefined();
     });
 
     test("upcase - enforces first letter upper case", () => {
-      const token = createIdLit({ upcase: true });
+      const token = createId({ upcase: true });
       expect(token).toBeDefined();
     });
 
     test("lowcase - enforces first letter lower case", () => {
-      const token = createIdLit({ lowcase: true });
+      const token = createId({ lowcase: true });
       expect(token).toBeDefined();
     });
   });
 
-  describe("createStringLit", () => {
+  describe("createString", () => {
     test("no args - default", () => {
-      const token = createStringLit();
+      const token = createString();
       expect(token).toBeDefined();
     });
   });
 
   describe("createWhiteSpace", () => {
     test("no args - default", () => {
-      const token = createWhiteSpace();
+      const token = createWhitespace();
       expect(token).toBeDefined();
     });
   });

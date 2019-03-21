@@ -1,16 +1,27 @@
-import { createNumberLit, createDecimalLit, createIdLit } from "./special";
+import { createTypeToken, createTypeTokens } from "./type-token";
 
 const keysOf = Object.keys;
-describe("special", () => {
-  describe("createNumberLit", () => {
-    test("no args - default", () => {
-      const token = createNumberLit();
+
+describe("type", () => {
+  describe("createTypeToken", () => {
+    test("number - ok", () => {
+      const token = createTypeToken("number");
       expect(token).toBeDefined();
     });
 
-    test("empty item - default", () => {
-      const token = createNumberLit({});
+    test("unknown type - ok", () => {
+      expect(() => createTypeToken("unknown")).not.toThrow();
+    });
+  });
+
+  describe("createTypeTokens", () => {
+    test("number - ok", () => {
+      const token = createTypeTokens(["number"]);
       expect(token).toBeDefined();
+    });
+
+    test("unknown - ok", () => {
+      expect(() => createTypeTokens(["number", "unknown"])).not.toThrow();
     });
   });
 });

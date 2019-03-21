@@ -1,7 +1,7 @@
 import { createSpecialLit, createSpecialLits } from "./special-token";
 
 const keysOf = Object.keys;
-describe("special token", () => {
+describe.only("special token", () => {
   describe("createSpecialLit", () => {
     test("invalid special - throws", () => {
       expect(() => createSpecialLit("unknown")).toThrow();
@@ -22,7 +22,7 @@ describe("special token", () => {
 
   describe("createSpecialLits", () => {
     test("invalid special - throws", () => {
-      expect(() => createSpecialLits(["whitespace", "unknown"])).not.toThrow();
+      expect(() => createSpecialLits(["whitespace", "unknown"])).toThrow();
     });
 
     test("invalid special: item no name - throws", () => {
@@ -34,7 +34,7 @@ describe("special token", () => {
     });
 
     test("valid special: item - no throw", () => {
-      expect(() => createSpecialLit([{ name: "id" }])).not.toThrow();
+      expect(() => createSpecialLits([{ name: "id" }])).not.toThrow();
     });
   });
 });

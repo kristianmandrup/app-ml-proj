@@ -14,8 +14,8 @@ describe("factories", () => {
       expect(() => createLitToken({})).toThrow();
     });
 
-    test("valid string - no throw", () => {
-      expect(() => createLitToken("id")).not.toThrow();
+    test("string - throws", () => {
+      expect(() => createLitToken("id")).toThrow();
     });
   });
 
@@ -30,8 +30,8 @@ describe("factories", () => {
   });
 
   describe("createTypeToken", () => {
-    test("invalid type - throws", () => {
-      expect(() => createTypeToken("unknown")).toThrow();
+    test("funny type - no check = ok", () => {
+      expect(() => createTypeToken("unknown")).not.toThrow();
     });
 
     test("valid string - no throw", () => {
@@ -40,8 +40,8 @@ describe("factories", () => {
   });
 
   describe("createTypeTokens", () => {
-    test("invalid type - throws", () => {
-      expect(() => createTypeTokens(["unknown"])).toThrow();
+    test("funny type name - no check - ok", () => {
+      expect(() => createTypeTokens(["unknown"])).not.toThrow();
     });
 
     test("valid type string - no throw", () => {
@@ -61,7 +61,7 @@ describe("factories", () => {
 
   describe("createSpecialLits", () => {
     test("invalid special - throws", () => {
-      expect(() => createSpecialLits(["whitespace", "unknown"])).not.toThrow();
+      expect(() => createSpecialLits(["whitespace", "unknown"])).toThrow();
     });
 
     test("valid special - no throw", () => {
