@@ -65,7 +65,6 @@ export class Parsx {
 
   consume = (name: string) => {
     const token = this.getToken(name);
-    console.log({ token });
     this.$["CONSUME"](token);
   };
 

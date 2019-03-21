@@ -1,5 +1,11 @@
 import { Parsx } from "./parsx";
-import { Parser, createToken } from "chevrotain";
+import { Lexer, Parser, createToken } from "chevrotain";
+
+const WhiteSpace = createToken({
+  name: "WhiteSpace",
+  pattern: /\s+/,
+  group: Lexer.SKIPPED
+});
 
 const AndToken = createToken({
   name: "And",
@@ -17,23 +23,31 @@ class MyParser extends Parser {
   }
 }
 
+let allTokens = [WhiteSpace, AndToken];
+const lexer = new Lexer(allTokens);
+
 // ONLY ONCE
 // const parser = new SelectParser([])
 
 const createParse = (lexer: any, parser: any) => {
-  const parseInput = text => {
+  const parseInput = (text, opts: any = {}) => {
     const lexingResult = lexer.tokenize(text);
     // "input" is a setter which will reset the parser's state.
     parser.input = lexingResult.tokens;
-    parser.selectStatement();
+    const rule = opts.rule;
+    if (!rule) {
+      throw new Error(`missing rule to execute: ${opts}`);
+    }
+    parser[rule]();
 
     if (parser.errors.length > 0) {
+      console.error("ERRORS:", parser.errors);
       throw new Error("sad sad panda, Parsing errors detected");
     }
   };
 
-  return inputText => {
-    parseInput(inputText);
+  return (inputText, opts: any = {}) => {
+    parseInput(inputText, opts);
   };
 };
 
@@ -169,8 +183,16 @@ describe("Parsx", () => {
       ).not.toThrow();
       parsx.selfAnalyse();
 
-      //const lexer =
-      // createParse(lexer, parsx.$)
+      // parser
+      const parse = createParse(lexer, parsx.$);
+      const parseAnd = () => parse("and", { rule: "hello" });
+      try {
+        parseAnd();
+      } catch (ex) {
+        console.error(ex);
+      }
+
+      expect(() => parseAnd()).not.toThrow();
     });
 
     test.skip("consume and - ok", () => {
