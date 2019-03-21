@@ -4,34 +4,46 @@ import { capitalize } from "../util";
 type callback = () => void;
 type IRule = any;
 
-// export interface IParser {
-//   CONSUME(token: any);
-//   MANY(callback);
-//   OR(alts: any[]);
-//   SUBRULE(rule: any, opts?: any);
-//   OPTION(callback);
-//   RULE(name: string, cb: callback);
-// }
+interface IMap {
+  [key: string]: any;
+}
 
 export class Parsx {
-  tokenMap: any;
+  tokenMap: IMap;
+  tokenAliasMap: IMap;
 
   constructor(public parser: Parser, public opts: any = {}) {
     this.tokenMap = opts.tokenMap;
+    this.tokenAliasMap = opts.tokenAliasMap;
   }
 
   $ = this.parser;
 
-  getToken(name: string): TokenType {
+  lookupAlias(name: string) {
+    return this.tokenAliasMap[name];
+  }
+
+  lookupToken(name: string) {
+    return this.tokenMap[name];
+  }
+
+  normalizeName(name: string) {
     if (name === "<string>") {
-      name = "String";
+      return "String";
     }
     if (name === "<ID>") {
-      name = "Identifier";
+      return "Identifier";
     }
+    return this.lookupAlias(name);
+  }
 
-    const capName = capitalize(name);
-    const token = this.tokenMap[capName];
+  capTokenName(name: string) {
+    return capitalize(this.normalizeName(name));
+  }
+
+  getToken(name: string): TokenType {
+    const capName = this.capTokenName(name);
+    const token = this.lookupToken(capName);
     return token || this.noToken(capName);
   }
 

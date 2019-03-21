@@ -13,7 +13,7 @@ export class Lexx {
 
   tokenOrder = ["whiteSpace", "decimals", "numbers", "tokens", "identifiers"];
 
-  tokenMap = {
+  tokenAliasMap = {
     ",": "Comma",
     ":": "Colon",
     ";": "SemiColon",
@@ -54,15 +54,15 @@ export class Lexx {
     if (!isObject(opts)) {
       throw `Invalid opts: ${opts}`;
     }
-    const tokenMap = this.tokenMap || {};
+    const tokenAliasMap = this.tokenAliasMap || {};
     this.opts = {
       ...this.opts,
       ...this.defaultOpts,
       opts
     };
-    this.tokenMap = {
-      ...this.tokenMap,
-      ...tokenMap
+    this.tokenAliasMap = {
+      ...this.tokenAliasMap,
+      ...tokenAliasMap
     };
   }
 
@@ -103,11 +103,20 @@ export class Lexx {
     return orderTokens(this.tokenOrder, this.tokenMaps);
   }
 
+  getTokenAlias(alias: string) {
+    const found = this.tokenAliasMap[alias];
+    return found ? found : this.noAliasFound(alias);
+  }
+
+  noAliasFound(alias: string) {
+    throw `No token found for alias: ${alias}`;
+  }
+
   addToken = (name: string, token: string) => {
     this.tokenMaps[name] = token;
   };
 
   tokenName = token => {
-    return this.tokenMap[token];
+    return this.tokenAliasMap[token];
   };
 }
