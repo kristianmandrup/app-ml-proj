@@ -1,17 +1,12 @@
-import { createMatchesAny, orderTokens, orderTokenMap } from "./order";
+import {
+  createMatchesAny,
+  // orderTokens,
+  orderTokenList,
+  orderTokenMap,
+  orderTokensBy
+} from "./order";
 
 describe("order", () => {
-  describe("orderTokenMap", () => {
-    test("conflicts", () => {
-      const tokenMap = {
-        invalid: true,
-        valid: true,
-        validate: true
-      };
-      expect(orderTokenMap(tokenMap)).toEqual(["invalid", "validate", "valid"]);
-    });
-  });
-
   describe("createMatchesAny", () => {
     const matchAny = createMatchesAny(["valid", "invalid"]);
 
@@ -25,9 +20,26 @@ describe("order", () => {
       });
     });
   });
+  describe("orderTokenMap", () => {
+    test("conflicts", () => {
+      const tokenMap = {
+        invalid: true,
+        valid: true,
+        validate: true
+      };
+      expect(orderTokenMap(tokenMap)).toEqual(["invalid", "validate", "valid"]);
+    });
+  });
 
-  describe("orderTokens", () => {
-    test("orders", () => {
+  describe("orderTokenList", () => {
+    test("conflicts", () => {
+      const tokens = ["invalid", "valid", "validate"];
+      expect(orderTokenList(tokens)).toEqual(["invalid", "validate", "valid"]);
+    });
+  });
+
+  describe("orderTokensBy", () => {
+    test("orders: map", () => {
       const maps = {
         types: {
           invalid: true,
@@ -37,7 +49,21 @@ describe("order", () => {
         id: true
       };
       const order = ["types", "id"];
-      expect(orderTokens(order, maps)).toEqual([
+      expect(orderTokensBy(order, maps)).toEqual([
+        "invalid",
+        "validate",
+        "valid",
+        "id"
+      ]);
+    });
+
+    test("orders: list", () => {
+      const maps = {
+        types: ["invalid", "valid", "validate"],
+        id: true
+      };
+      const order = ["types", "id"];
+      expect(orderTokensBy(order, maps)).toEqual([
         "invalid",
         "validate",
         "valid",

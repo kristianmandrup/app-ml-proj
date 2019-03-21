@@ -1,5 +1,5 @@
 import { Parser, TokenType, Rule } from "chevrotain";
-import { capitalize } from "../util";
+import { capitalize, stringify } from "../util";
 import { aliasMap } from "./alias-map";
 
 type callback = () => void;
@@ -45,7 +45,7 @@ export class Parsx {
     if (name === "<ID>") {
       return "Identifier";
     }
-    return this.lookupAlias(name);
+    return this.lookupAlias(name) || name;
   }
 
   capTokenName(name: string) {
@@ -55,17 +55,23 @@ export class Parsx {
   getToken(name: string): TokenType {
     const capName = this.capTokenName(name);
     const token = this.lookupToken(capName);
-    return token || this.noToken(capName);
+    return token || this.noToken(name, capName);
   }
 
-  noToken(name) {
-    throw `No such token registered ${name}`;
+  noToken(name: string, capName?: string) {
+    throw `No such token registered ${name ||
+      "undefined"} capName:${capName} map: ${stringify(this.tokenMap)}`;
   }
 
   consume = (name: string) => {
     const token = this.getToken(name);
+    console.log({ token });
     this.$["CONSUME"](token);
   };
+
+  selfAnalyse() {
+    this.$["performSelfAnalysis"]();
+  }
 
   consumes = (names: string[]) => {
     names.map(this.consume);

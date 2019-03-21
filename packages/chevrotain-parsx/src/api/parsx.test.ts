@@ -1,17 +1,54 @@
 import { Parsx } from "./parsx";
 import { Parser, createToken } from "chevrotain";
 
-const token = createToken({
-  name: "x",
-  pattern: /x/
+const AndToken = createToken({
+  name: "And",
+  pattern: /and/
 });
-const tokens = [token];
+
+const tokens = [AndToken];
+const tokenMap = {
+  And: AndToken
+};
+
+class MyParser extends Parser {
+  constructor() {
+    super(tokens);
+  }
+}
+
+// ONLY ONCE
+// const parser = new SelectParser([])
+
+const createParse = (lexer: any, parser: any) => {
+  const parseInput = text => {
+    const lexingResult = lexer.tokenize(text);
+    // "input" is a setter which will reset the parser's state.
+    parser.input = lexingResult.tokens;
+    parser.selectStatement();
+
+    if (parser.errors.length > 0) {
+      throw new Error("sad sad panda, Parsing errors detected");
+    }
+  };
+
+  return inputText => {
+    parseInput(inputText);
+  };
+};
 
 const createParser = (_tokens = tokens) => {
   return new Parser(_tokens);
 };
 
-const createParsx = (parser, opts: any = {}) => {
+const defaults = {
+  opts: {
+    tokenMap
+  },
+  tokenMap
+};
+
+const createParsx = (parser, opts: any = defaults.opts) => {
   return new Parsx(parser, opts);
 };
 
@@ -101,7 +138,7 @@ describe("Parsx", () => {
     const parsx = createParsx(parser);
 
     test("x - token x", () => {
-      expect(parsx.getToken("x")).toBe(token);
+      expect(parsx.getToken("and")).toBe(AndToken);
     });
 
     test("unknown - throws", () => {
@@ -118,29 +155,43 @@ describe("Parsx", () => {
     });
   });
 
-  describe("consume", () => {
+  describe.only("consume", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
 
-    test("consume x - ok", () => {
-      expect(() => parsx.consume("x")).not.toThrow();
+    // const myParser = new MyParser()
+
+    test("manual", () => {
+      expect(() =>
+        parsx.ruleFor("hello", () => {
+          parsx.consume("and");
+        })
+      ).not.toThrow();
+      parsx.selfAnalyse();
+
+      //const lexer =
+      // createParse(lexer, parsx.$)
     });
 
-    test("consume unknown - throws", () => {
-      expect(() => parsx.consume("x")).toThrow();
+    test.skip("consume and - ok", () => {
+      expect(() => parsx.consume("and")).not.toThrow();
     });
+
+    // test("consume unknown - throws", () => {
+    //   expect(() => parsx.consume("and")).toThrow();
+    // });
   });
 
-  describe("consumes", () => {
+  describe.skip("consumes", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
 
     test("consume x - ok", () => {
-      expect(() => parsx.consumes(["x"])).not.toThrow();
+      expect(() => parsx.consumes(["and"])).not.toThrow();
     });
 
     test("consume unknown - throws", () => {
-      expect(() => parsx.consumes(["x"])).toThrow();
+      expect(() => parsx.consumes(["and"])).toThrow();
     });
   });
 });

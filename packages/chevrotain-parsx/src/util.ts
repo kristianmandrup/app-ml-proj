@@ -10,3 +10,4 @@ export const isObject = obj => obj === Object(obj);
 export const isRegExp = pattern => pattern instanceof RegExp;
 export const regExpFor = pattern =>
   isString(pattern) ? new RegExp(pattern) : pattern;
+export const stringify = JSON.stringify;

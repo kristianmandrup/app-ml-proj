@@ -1,5 +1,5 @@
 import * as factories from "./factories";
-import { orderTokens } from "./order";
+import { orderTokensBy } from "./order";
 import { isObject } from "./util";
 import { aliasMap } from "./alias-map";
 
@@ -68,7 +68,7 @@ export class Lexx {
 
   // use order on literals collected
   get allTokens() {
-    return orderTokens(this.tokenOrder, this.tokenMaps);
+    return orderTokensBy(this.tokenOrder, this.tokenMaps);
   }
 
   getTokenAlias(alias: string) {

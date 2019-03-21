@@ -7,7 +7,7 @@ const parser = new CalculatorPure([]);
 // ----------------- Interpreter -----------------
 const BaseCstVisitor = parser.getBaseCstVisitorConstructor();
 
-class CalculatorInterpreter extends BaseCstVisitor {
+export class DataInterpreter extends BaseCstVisitor {
   constructor() {
     super();
     // This helper will detect any missing or redundant methods on this visitor
