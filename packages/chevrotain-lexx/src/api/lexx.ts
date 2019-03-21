@@ -1,6 +1,7 @@
 import * as factories from "./factories";
 import { orderTokens } from "./order";
 import { isObject } from "./util";
+import { aliasMap } from "./alias-map";
 
 export class Lexx {
   tokenMaps = {
@@ -13,40 +14,7 @@ export class Lexx {
 
   tokenOrder = ["whiteSpace", "decimals", "numbers", "tokens", "identifiers"];
 
-  tokenAliasMap = {
-    ",": "Comma",
-    ":": "Colon",
-    ";": "SemiColon",
-    "=": "Assign",
-    "==": "Equal",
-    "!==": "NotEqual",
-    "!": "Exclamation",
-    "?": "Question",
-    "#": "Hash",
-    $: "Dollar",
-    "&": "And",
-    "-": "Minus",
-    "+": "Plus",
-    "*": "Times",
-    "%": "Percent",
-    ".": "Dot",
-    "@": "Ampersand",
-    '"': "DoubleQuote",
-    "'": "SingleQuote",
-    "`": "BackTick",
-    "|": "Pipe",
-    _: "Underscore",
-    ">": "GreaterThan",
-    "<": "LessThan",
-    "/": "Forwardslash",
-    "\\": "Backslash",
-    "(": "LeftParens",
-    ")": "RightParens",
-    "[": "LeftSquareBracket",
-    "]": "RightSquareBracket",
-    "{": "LeftCurlyBracket",
-    "}": "RightCurlyBracket"
-  };
+  tokenAliasMap = aliasMap;
 
   opts = {};
 

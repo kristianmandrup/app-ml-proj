@@ -1,5 +1,5 @@
-import { camelcase } from "lodash.camelcase";
-import { capitalize } from "lodash.capitalize";
+import * as camelcase from "lodash.camelcase";
+import * as capitalize from "lodash.capitalize";
 
 export const camelize = str => capitalize(camelcase(str));
 export const isString = val => typeof val === "string";

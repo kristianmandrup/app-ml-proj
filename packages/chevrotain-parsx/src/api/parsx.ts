@@ -1,5 +1,6 @@
 import { Parser, TokenType, Rule } from "chevrotain";
 import { capitalize } from "../util";
+import { aliasMap } from "./alias-map";
 
 type callback = () => void;
 type IRule = any;
@@ -9,12 +10,22 @@ interface IMap {
 }
 
 export class Parsx {
-  tokenMap: IMap;
-  tokenAliasMap: IMap;
+  tokenMap: IMap = {};
+  defaultAliasMap: IMap = aliasMap;
+  _tokenAliasMap: IMap = this.defaultAliasMap;
+
+  get tokenAliasMap() {
+    return this._tokenAliasMap;
+  }
 
   constructor(public parser: Parser, public opts: any = {}) {
-    this.tokenMap = opts.tokenMap;
-    this.tokenAliasMap = opts.tokenAliasMap;
+    const tokenAliasMap = opts.tokenAliasMap || {};
+    const tokenMap = opts.tokenMap || {};
+    this.tokenMap = tokenMap;
+    this._tokenAliasMap = {
+      ...this.tokenAliasMap,
+      ...tokenAliasMap
+    };
   }
 
   $ = this.parser;
