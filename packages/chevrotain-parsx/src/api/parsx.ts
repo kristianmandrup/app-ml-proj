@@ -90,7 +90,7 @@ export class Parsx {
     return this;
   }
 
-  optional(rule: any) {
+  optional(rule: callback) {
     this.$["OPTION"](rule);
     return this;
   }

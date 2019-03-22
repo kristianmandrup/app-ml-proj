@@ -52,6 +52,22 @@ const createParse = (lexer: any, parser: any) => {
 };
 
 const createParsxRuler = (parsx: any) => {
+  const optionalSub = (name: string, subName: string) => {
+    parsx.ruleFor(name, () => {
+      parsx.optionalSub(subName);
+    });
+  };
+
+  const optional = (name: string, cb: Function) => {
+    parsx.ruleFor(name, () => {
+      parsx.optional(cb);
+    });
+  };
+  const subrule = (name: string, subruleName: string) => {
+    parsx.ruleFor(name, () => {
+      parsx.subrule(subruleName);
+    });
+  };
   const consume = (name: string, token: string) => {
     parsx.ruleFor(name, () => {
       parsx.consume(token);
@@ -69,6 +85,9 @@ const createParsxRuler = (parsx: any) => {
   const parseLex = (lexer: any) => createParse(lexer, parsx.$);
 
   return {
+    optionalSub,
+    optional,
+    subrule,
     consume,
     consumes,
     analyse,
@@ -215,7 +234,7 @@ describe("Parsx", () => {
     });
   });
 
-  describe.skip("consumes", () => {
+  describe("consumes", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
 
@@ -235,4 +254,84 @@ describe("Parsx", () => {
       expect(() => parseUnknown()).toThrow();
     });
   });
+
+  describe("subrule", () => {
+    const parser = createParser();
+    const parsx = createParsx(parser);
+    const ruler = createParsxRuler(parsx);
+
+    const subRuleName = "subExpr";
+    const subruler = createParsxRuler(parsx);
+    expect(() => subruler.consume(subRuleName, "and")).not.toThrow();
+
+    const ruleName = "sub";
+    expect(() => ruler.subrule(ruleName, subRuleName)).not.toThrow();
+    ruler.analyse();
+    const parse = ruler.parseLex(lexer);
+
+    test("consume x - ok", () => {
+      const parseAnd = () => parse("and", ruleName);
+      expect(() => parseAnd()).not.toThrow();
+    });
+
+    test("consume unknown - throws", () => {
+      const parseUnknown = () => parse("unknown", ruleName);
+      expect(() => parseUnknown()).toThrow();
+    });
+  });
+  describe("optional", () => {
+    const parser = createParser();
+    const parsx = createParsx(parser);
+
+    const ruler = createParsxRuler(parsx);
+    const ruleName = "opt";
+    const opt = () => parsx.consume("and");
+    expect(() => ruler.optional(ruleName, opt)).not.toThrow();
+    ruler.analyse();
+    const parse = ruler.parseLex(lexer);
+
+    test("consume x - ok", () => {
+      const parseAnd = () => parse("and", ruleName);
+      expect(() => parseAnd()).not.toThrow();
+    });
+
+    test("consume unknown - throws", () => {
+      const parseUnknown = () => parse("unknown", ruleName);
+      expect(() => parseUnknown()).toThrow();
+    });
+  });
+  describe("optionalSub", () => {
+    const parser = createParser();
+    const parsx = createParsx(parser);
+
+    const subRuleName = "expr";
+    const subruler = createParsxRuler(parsx);
+    expect(() => subruler.consume(subRuleName, "and")).not.toThrow();
+
+    const ruler = createParsxRuler(parsx);
+    const ruleName = "optSub";
+    expect(() => ruler.optionalSub(ruleName, subRuleName)).not.toThrow();
+    ruler.analyse();
+    const parse = ruler.parseLex(lexer);
+
+    test("consume x - ok", () => {
+      const parseAnd = () => parse("and", ruleName);
+      expect(() => parseAnd()).not.toThrow();
+    });
+
+    test("consume unknown - throws", () => {
+      const parseUnknown = () => parse("unknown", ruleName);
+      expect(() => parseUnknown()).toThrow();
+    });
+  });
+
+  // consumeOptional
+  // either
+  // consumeEither
+  // subruleEither
+  // many
+  // manySeparatedBy
+  // atLeastOneSeparatedBy
+  // manySub
+  // manyOfEither
 });
