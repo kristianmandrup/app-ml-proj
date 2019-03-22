@@ -34,7 +34,7 @@ const createParse = (lexer: any, parser: any) => {
     const lexingResult = lexer.tokenize(text);
     // "input" is a setter which will reset the parser's state.
     parser.input = lexingResult.tokens;
-    const rule = opts.rule;
+    const rule = typeof opts === "string" ? opts : opts.rule;
     if (!rule) {
       throw new Error(`missing rule to execute: ${opts}`);
     }
@@ -48,6 +48,31 @@ const createParse = (lexer: any, parser: any) => {
 
   return (inputText, opts: any = {}) => {
     parseInput(inputText, opts);
+  };
+};
+
+const createParsxRuler = (parsx: any) => {
+  const consume = (name: string, token: string) => {
+    parsx.ruleFor(name, () => {
+      parsx.consume(token);
+    });
+  };
+  const consumes = (name: string, tokens: string[]) => {
+    parsx.ruleFor(name, () => {
+      parsx.consumes(tokens);
+    });
+  };
+
+  const analyse = () => parsx.selfAnalyse();
+
+  // parser
+  const parseLex = (lexer: any) => createParse(lexer, parsx.$);
+
+  return {
+    consume,
+    consumes,
+    analyse,
+    parseLex
   };
 };
 
@@ -173,47 +198,41 @@ describe("Parsx", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
 
-    // const myParser = new MyParser()
+    const ruler = createParsxRuler(parsx);
+    const ruleName = "cSingle";
+    expect(() => ruler.consume(ruleName, "and")).not.toThrow();
+    ruler.analyse();
+    const parse = ruler.parseLex(lexer);
 
-    test("manual", () => {
-      expect(() =>
-        parsx.ruleFor("hello", () => {
-          parsx.consume("and");
-        })
-      ).not.toThrow();
-      parsx.selfAnalyse();
-
-      // parser
-      const parse = createParse(lexer, parsx.$);
-      const parseAnd = () => parse("and", { rule: "hello" });
-      try {
-        parseAnd();
-      } catch (ex) {
-        console.error(ex);
-      }
-
+    test("consume - ok", () => {
+      const parseAnd = () => parse("and", ruleName);
       expect(() => parseAnd()).not.toThrow();
     });
 
-    test.skip("consume and - ok", () => {
-      expect(() => parsx.consume("and")).not.toThrow();
+    test("consume unknown - throws", () => {
+      const parseUnknown = () => parse("unknown", ruleName);
+      expect(() => parseUnknown()).toThrow();
     });
-
-    // test("consume unknown - throws", () => {
-    //   expect(() => parsx.consume("and")).toThrow();
-    // });
   });
 
   describe.skip("consumes", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
 
+    const ruler = createParsxRuler(parsx);
+    const ruleName = "cMulti";
+    expect(() => ruler.consumes(ruleName, ["and"])).not.toThrow();
+    ruler.analyse();
+    const parse = ruler.parseLex(lexer);
+
     test("consume x - ok", () => {
-      expect(() => parsx.consumes(["and"])).not.toThrow();
+      const parseAnd = () => parse("and", ruleName);
+      expect(() => parseAnd()).not.toThrow();
     });
 
     test("consume unknown - throws", () => {
-      expect(() => parsx.consumes(["and"])).toThrow();
+      const parseUnknown = () => parse("unknown", ruleName);
+      expect(() => parseUnknown()).toThrow();
     });
   });
 });
