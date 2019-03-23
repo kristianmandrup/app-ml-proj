@@ -1,6 +1,6 @@
 import { Parser, TokenType, Rule } from "chevrotain";
-import { capitalize, stringify } from "../util";
-import { aliasMap } from "./alias-map";
+import { capitalize, stringify } from "../../util";
+import { aliasMap } from "../alias-map";
 
 type callback = () => void;
 type IRule = any;
@@ -95,7 +95,7 @@ export class Parsx {
     return this;
   }
 
-  optionalSub(rule: any) {
+  optionalSub(rule: IRule) {
     this.$["OPTION"](() => this.subrule(rule));
     return this;
   }
@@ -149,7 +149,7 @@ export class Parsx {
     });
   }
 
-  manySub(rule: any, opts: any = {}) {
+  manySub(rule: IRule, opts: any = {}) {
     this.$["MANY"](() => this.subrule(rule, opts));
     return this;
   }
