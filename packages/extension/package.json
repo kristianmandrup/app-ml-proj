@@ -30,6 +30,27 @@
         "scopeName": "source.appml",
         "path": "./syntaxes/appml.tmLanguage.json"
       }
-    ]
+    ],
+    "configurationDefaults": {
+      "[appml]": {
+        "editor.insertSpaces": false,
+        "editor.tokenColorCustomizations": {
+          "textMateRules": [
+            {
+              "scope": "comment.block.appml",
+              "settings": {
+                "foreground": "#ff8800"
+              }
+            },
+            {
+              "scope": "entity.name.class.appml",
+              "settings": {
+                "foreground": "#00ff55"
+              }
+            }
+          ]
+        }
+      }
+    }
   }
 }

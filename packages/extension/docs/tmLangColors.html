@@ -1,0 +1,353 @@
+<html>
+  <style>
+    .emphasis {
+      font-style: italic;
+    }
+    .strong {
+      font-weight: bold;
+    }
+    .header {
+      color: rgba(0, 0, 128, 1);
+    }
+    .comment {
+      color: rgba(96, 139, 78, 1);
+    }
+    .constant.language {
+      color: rgba(86, 156, 214, 1);
+    }
+    .constant.numeric {
+      color: rgba(181, 206, 168, 1);
+    }
+    .constant.regexp {
+      color: rgba(100, 102, 149, 1);
+    }
+    .constant.rgb-value {
+      color: rgba(212, 212, 212, 1);
+    }
+    .entity.name.tag {
+      color: rgba(86, 156, 214, 1);
+    }
+    .entity.name.function {
+      color: rgba(212, 212, 212, 1);
+    }
+    .entity.name.class {
+      color: rgba(212, 212, 212, 1);
+    }
+    .entity.name.selector {
+      color: rgba(215, 186, 125, 1);
+    }
+    .entity.other.attribute-name {
+      color: rgba(156, 220, 254, 1);
+    }
+    .entity.other.attribute-name.css {
+      color: rgba(215, 186, 125, 1);
+    }
+    .invalid {
+      color: rgba(244, 71, 71, 1);
+    }
+    .markup.underline {
+      text-decoration: underline;
+    }
+    .markup.bold {
+      font-weight: bold;
+    }
+    .markup.heading {
+      color: rgba(103, 150, 230, 1);
+    }
+    .markup.italic {
+      font-style: italic;
+    }
+    .markup.inserted {
+      color: rgba(181, 206, 168, 1);
+    }
+    .markup.deleted {
+      color: rgba(206, 145, 120, 1);
+    }
+    .markup.changed {
+      color: rgba(86, 156, 214, 1);
+    }
+    .meta.selector {
+      color: rgba(215, 186, 125, 1);
+    }
+    .meta.tag {
+      color: rgba(128, 128, 128, 1);
+    }
+    .punctuation.tag.js {
+      color: rgba(128, 128, 128, 1);
+    }
+    .punctuation.tag.tsx {
+      color: rgba(128, 128, 128, 1);
+    }
+    .meta.preprocessor {
+      color: rgba(86, 156, 214, 1);
+    }
+    .meta.preprocessor.string {
+      color: rgba(206, 145, 120, 1);
+    }
+    .meta.preprocessor.numeric {
+      color: rgba(181, 206, 168, 1);
+    }
+    .meta.structure.dictionary.key.python {
+      color: rgba(156, 220, 254, 1);
+    }
+    .meta.header.diff {
+      color: rgba(86, 156, 214, 1);
+    }
+    .storage {
+      color: rgba(86, 156, 214, 1);
+    }
+    .storage.type {
+      color: rgba(86, 156, 214, 1);
+    }
+    .storage.modifier {
+      color: rgba(86, 156, 214, 1);
+    }
+    .string {
+      color: rgba(206, 145, 120, 1);
+    }
+    .string.tag {
+      color: rgba(206, 145, 120, 1);
+    }
+    .string.value {
+      color: rgba(206, 145, 120, 1);
+    }
+    .string.regexp {
+      color: rgba(209, 105, 105, 1);
+    }
+    .support.type.property-name {
+      color: rgba(156, 220, 254, 1);
+    }
+    .keyword {
+      color: rgba(86, 156, 214, 1);
+    }
+    .keyword.control {
+      color: rgba(86, 156, 214, 1);
+    }
+    .keyword.control.less {
+      color: rgba(215, 186, 125, 1);
+    }
+    .keyword.operator {
+      color: rgba(212, 212, 212, 1);
+    }
+    .keyword.operator.new {
+      color: rgba(86, 156, 214, 1);
+    }
+    .keyword.other.unit {
+      color: rgba(181, 206, 168, 1);
+    }
+    .metatag.php {
+      color: rgba(86, 156, 214, 1);
+    }
+    .support.function.git-rebase {
+      color: rgba(156, 220, 254, 1);
+    }
+    .constant.sha.git-rebase {
+      color: rgba(181, 206, 168, 1);
+    }
+    .storage.modifier.import.java {
+      color: rgba(212, 212, 212, 1);
+    }
+    .storage.modifier.package.java {
+      color: rgba(212, 212, 212, 1);
+    }
+    table {
+      color: white;
+      background: black;
+      margin-bottom: 1em;
+    }
+  </style>
+  <body>
+    <strong>basic</strong>
+    <table>
+      <tr>
+        <td class="emphasis">emphasis</td>
+      </tr>
+      <tr>
+        <td class="strong">strong</td>
+      </tr>
+      <tr>
+        <td class="comment">comment</td>
+      </tr>
+      <tr>
+        <td class="invalid">invalid</td>
+      </tr>
+    </table>
+
+    <strong>constant</strong>
+    <table>
+      <tr>
+        <td class="constant language">constant.language</td>
+      </tr>
+      <tr>
+        <td class="constant numeric">constant.numeric</td>
+      </tr>
+      <tr>
+        <td class="constant regexp">constant.regexp</td>
+      </tr>
+      <tr>
+        <td class="constant rgb-value">constant.rgb-value</td>
+      </tr>
+      <tr>
+        <td class="constant sha git-rebase">.constant.sha.git-rebase</td>
+      </tr>
+    </table>
+
+    <strong>entity</strong>
+    <table>
+      <tr>
+        <td class="entity name tag">entity.name.tag</td>
+      </tr>
+      <tr>
+        <td class="entity name function">entity.name.function</td>
+      </tr>
+      <tr>
+        <td class="entity name class">entity.name.class</td>
+      </tr>
+      <tr>
+        <td class="entity name selector">entity.name.selector</td>
+      </tr>
+      <tr>
+        <td class="entity other attribute-name">entity.other.attribute-name</td>
+      </tr>
+      <tr>
+        <td class="entity other attribute-name css">
+          entity.other.attribute-name.css
+        </td>
+      </tr>
+      <tr>
+        <td class="entity name selector">entity.name.selector</td>
+      </tr>
+    </table>
+
+    <strong>markup</strong>
+    <table>
+      <tr>
+        <td class="markup underline">markup.underline</td>
+      </tr>
+      <tr>
+        <td class="markup bold">markup.bold</td>
+      </tr>
+      <tr>
+        <td class="markup heading">markup.heading</td>
+      </tr>
+      <tr>
+        <td class="markup italic">markup.italic</td>
+      </tr>
+      <tr>
+        <td class="markup inserted">markup.inserted</td>
+      </tr>
+      <tr>
+        <td class="markup deleted">markup.deleted</td>
+      </tr>
+      <tr>
+        <td class="markup changed">markup.changed</td>
+      </tr>
+    </table>
+
+    <strong>meta</strong>
+    <table>
+      <tr>
+        <td class="meta selector">meta.selector</td>
+      </tr>
+      <tr>
+        <td class="meta tag">meta.tag</td>
+      </tr>
+      <tr>
+        <td class="meta preprocessor">meta.preprocessor</td>
+      </tr>
+      <tr>
+        <td class="meta preprocessor numeric">meta.preprocessor.numeric</td>
+      </tr>
+      <tr>
+        <td class="meta preprocessor string">meta.preprocessor.string</td>
+      </tr>
+      <tr>
+        <td class="meta dictionary key python">meta.dictionary.key.python</td>
+      </tr>
+      <tr>
+        <td class="meta header.diff">meta.header.diff</td>
+      </tr>
+    </table>
+
+    <strong>punctuation</strong>
+    <table>
+      <tr>
+        <td class="punctuation tag js">punctuation.tag.js</td>
+      </tr>
+      <tr>
+        <td class="punctuation tag tsx">punctuation.tag.tsx</td>
+      </tr>
+    </table>
+
+    <strong>storage</strong>
+    <table>
+      <tr>
+        <td class="storage">storage</td>
+      </tr>
+      <tr>
+        <td class="storage type">storage.type</td>
+      </tr>
+      <tr>
+        <td class="storage modifier">storage.modifier</td>
+      </tr>
+      <tr>
+        <td class="storage modifier import java">
+          storage.modifier.import.java
+        </td>
+      </tr>
+      <tr>
+        <td class="storage modifier package java">
+          storage.modifier.package.java
+        </td>
+      </tr>
+    </table>
+
+    <strong>string</strong>
+    <table>
+      <tr>
+        <td class="string">string</td>
+      </tr>
+      <tr>
+        <td class="string tag">string.tag</td>
+      </tr>
+      <tr>
+        <td class="string value">string.value</td>
+      </tr>
+      <tr>
+        <td class="string regexp">string.regexp</td>
+      </tr>
+    </table>
+
+    <strong>support</strong>
+    <table>
+      <tr>
+        <td class="support type property-name">support.type.property-name</td>
+      </tr>
+      <tr>
+        <td class="support function git-rebase">support.function.git-rebase</td>
+      </tr>
+    </table>
+
+    <strong>keyword</strong>
+    <table>
+      <tr>
+        <td class="keyword">keyword</td>
+      </tr>
+      <tr>
+        <td class="keyword control">keyword.control</td>
+      </tr>
+      <tr>
+        <td class="keyword control less">keyword.control.less</td>
+      </tr>
+      <tr>
+        <td class="keyword operator">keyword.operator</td>
+      </tr>
+      <tr>
+        <td class="keyword operator new">keyword.operator.new</td>
+      </tr>
+      <tr>
+        <td class="keyword other unit">keyword.other.unit</td>
+      </tr>
+    </table>
+  </body>
+</html>

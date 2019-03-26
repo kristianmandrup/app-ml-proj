@@ -2,30 +2,6 @@ import { createParsx, createParser, AndToken } from "./test-helpers";
 import { Parsx } from "..";
 
 describe("Parsx", () => {
-  describe("create", () => {
-    test("creates Parsx", () => {
-      const parser = createParser();
-
-      expect(new Parsx(parser)).toBeDefined();
-    });
-
-    test("creates Parsx with custom tokenMap", () => {
-      const parser = createParser();
-      const tokenMap = {};
-      const opts = { tokenMap };
-      expect(createParsx(parser, opts)).toBeDefined();
-    });
-
-    test("creates Parsx with custom tokenAliasMap", () => {
-      const parser = createParser();
-      const tokenAliasMap = {
-        "±": "PlusMinus"
-      };
-      const opts = { tokenAliasMap };
-      expect(createParsx(parser, opts)).toBeDefined();
-    });
-  });
-
   describe("lookupAlias", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
