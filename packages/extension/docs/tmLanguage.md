@@ -6,6 +6,65 @@ This file provides syntax highlighting rules by matching literals and tokens usi
 
 - [list of tokens](https://gist.github.com/vivainio/b89bd60a3f2c7bbb31f7e149d6cb8806)
 
+Also see [Editor.TokenColorCustomizations ](https://github.com/Microsoft/vscode/pull/29393)
+
+```json
+    "configurationDefaults": {
+      "[log]": {
+        "editor.insertSpaces": false,
+        "editor.tokenColorCustomizations": {
+          "textMateRules": [
+            {
+              "scope": "comments",
+              "settings": {
+                "foreground": "#00ff00"
+              }
+            },
+            {
+              "scope": "entity.name.function",
+              "settings": {
+                "foreground": "#0000cc",
+                "fontStyle": "italic"
+              }
+            }
+          ]
+        }
+      }
+    }
+```
+
+Note that you scope the entire customization on the key group level, such as "[log]".
+This means you don't need to name each scope with the context postfix, ie. use `comments` not `comments.log`
+
+The styling schema is as follows:
+
+- `foreground` (color)
+- `background` (color)
+- `fontStyle` (One or a combination of: `italic`, `bold`, `underline`)
+
+```js
+tokenColorizationSettingSchema = {
+  type: "object",
+  properties: {
+    foreground: {
+      type: "string",
+      format: "color"
+    },
+    background: {
+      type: "string",
+      format: "color"
+    },
+    fontStyle: {
+      type: "string",
+      description: nls.localize(
+        "schema.fontStyle",
+        "Font style of the rule: One or a combination of 'italic', 'bold' and 'underline'"
+      )
+    }
+  }
+};
+```
+
 Most common tokens:
 
 - `header`
