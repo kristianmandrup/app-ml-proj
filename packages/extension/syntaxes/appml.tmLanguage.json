@@ -28,7 +28,7 @@
     "classId": {
       "patterns": [
         {
-          "name": "entity.name.class.appml",
+          "name": "variable.appml",
           "match": "([A-Z]\\w+)"
         }
       ]

@@ -32,24 +32,38 @@
       }
     ],
     "configurationDefaults": {
-      "[appml]": {
-        "editor.insertSpaces": false,
-        "editor.tokenColorCustomizations": {
-          "textMateRules": [
-            {
-              "scope": "comment.block.appml",
-              "settings": {
-                "foreground": "#ff8800"
-              }
-            },
-            {
-              "scope": "entity.name.class.appml",
-              "settings": {
-                "foreground": "#00ff55"
-              }
+      "editor.insertSpaces": false,
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": [
+              "entity.name.function.invocation.log",
+              "entity.name.function.log",
+              "entity.name.type",
+              "entity.other.attribute-name",
+              "entity.other.inherited-class",
+              "entity.type.namespace",
+              "punctuation.definition.tag",
+              "storage.type",
+              "storage.type.cs",
+              "support.class",
+              "support.constant.math",
+              "support.function.powershell",
+              "variable.other.normal.powershell",
+              "variable.other.object.ts",
+              "variable.other.readwrite.powershell"
+            ],
+            "settings": {
+              "foreground": "#FFC66D"
             }
-          ]
-        }
+          },
+          {
+            "scope": "entity.name.class.appml",
+            "settings": {
+              "foreground": "#00ff55"
+            }
+          }
+        ]
       }
     }
   }

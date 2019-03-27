@@ -2,6 +2,10 @@
 
 The `package.json` defined the meta data used to declare your extension.
 
+See also:
+
+- [KotlinLanguageServer](https://github.com/fwcd/KotlinLanguageServer)
+
 ```json
 {
   "name": "log-example",
