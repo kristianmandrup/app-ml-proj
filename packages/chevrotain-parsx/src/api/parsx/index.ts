@@ -63,18 +63,19 @@ export class Parsx {
       "undefined"} capName:${capName} map: ${stringify(this.tokenMap)}`;
   }
 
-  consume = (name: string) => {
-    const token = this.getToken(name);
-    this.$["CONSUME"](token);
+  consume = (...names: string[]) => {
+    if (names.length === 1) {
+      names = names[0].split(/\s+/);
+    }
+    names.map(name => {
+      const token = this.getToken(name);
+      this.$["CONSUME"](token);
+    });
   };
 
   selfAnalyse() {
     this.$["performSelfAnalysis"]();
   }
-
-  consumes = (names: string[]) => {
-    names.map(this.consume);
-  };
 
   // create instance of Rule
   // then monitor use of various constructs inside to ensure

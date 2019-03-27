@@ -6,7 +6,7 @@ import {
 } from "./test-helpers";
 
 describe("Parsx", () => {
-  describe("consume", () => {
+  describe("consume: single token and", () => {
     const parser = createParser();
     const parsx = createParsx(parser);
 
@@ -24,6 +24,22 @@ describe("Parsx", () => {
     test("consume unknown - throws", () => {
       const parseUnknown = () => parse("unknown", ruleName);
       expect(() => parseUnknown()).toThrow();
+    });
+  });
+
+  describe("consume: multi token string", () => {
+    const parser = createParser();
+    const parsx = createParsx(parser);
+
+    const ruler = createParsxRuler(parsx);
+    const ruleName = "cSingle";
+    expect(() => ruler.consume(ruleName, "and or")).not.toThrow();
+    ruler.analyse();
+    const parse = ruler.parseLex(lexer);
+
+    test("consume - ok", () => {
+      const parseAndOr = () => parse("and or", ruleName);
+      expect(() => parseAndOr()).not.toThrow();
     });
   });
 });

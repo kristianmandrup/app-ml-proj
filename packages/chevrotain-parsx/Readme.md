@@ -59,8 +59,16 @@ The class `Parsx` wraps a chevrotain `Parser` instance and a token map `tokenMap
 
 - `consumeEither(tokens: string[])`
 - `consumeOptional(token: any)`
-- `consume(name: string)`
-- `consumes(names: string[])`
+- `consume(name: string)` single token or multiple separated with whitespace
+
+Examples:
+
+```js
+consume("and");
+consume("workflow", ":");
+consume(["workflow", ":"]);
+consume("workflow :"); // splits on space separator
+```
 
 ### getToken
 
