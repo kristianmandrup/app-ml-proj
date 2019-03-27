@@ -1,6 +1,16 @@
 # VSCode textmate theming
 
-See [textmate themes](https://code.visualstudio.com/blogs/2017/02/08/syntax-highlighting-optimizations#_textmate-themes)
+## Syntax highlighting
+
+- [VSC syntax highlighting](https://code.visualstudio.com/blogs/2017/02/08/syntax-highlighting-optimizations#_syntax-highlighting)
+
+Syntax Highlighting usually consists of two phases. Tokens are assigned to source code, and then they are targeted by a theme, assigned colors, and voilà, your source code is rendered with colors. It is the one feature that turns a text editor into a code editor.
+
+Tokenization in VS Code (and in the Monaco Editor) runs line-by-line, from top to bottom, in a single pass. A tokenizer can store some state at the end of a tokenized line, which will be passed back when tokenizing the next line. This is a technique used by many tokenization engines, including TextMate grammars, that allows an editor to retokenize only a small subset of the lines when the user makes edits.
+
+## Theming
+
+- [textmate themes](https://code.visualstudio.com/blogs/2017/02/08/syntax-highlighting-optimizations#_textmate-themes)
 
 Given a token with the following scopes:
 
